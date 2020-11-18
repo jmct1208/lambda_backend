@@ -1,27 +1,19 @@
 package com.taekwondo.model;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-@Entity
-public class Alumno {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AlumnoDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(name = "usuario_id")
-	private Integer idUsuario;
-	
+		
 	@Size(min=2, message="El nombre de la persona debe tener al menos 2 letras")
 	private String nombre;
 	
@@ -29,41 +21,36 @@ public class Alumno {
 	private String apellidos;
 	
 	@Past
-	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
 	
+	@NotBlank
 	private String fotografia;
 	
-	@Column(name = "actividad_marcial")
+	@NotBlank
 	private String actividadMarcial;
 	
-	@Column(name = "seguro_medico")
+	@NotBlank
 	private String seguroMedico;
 	
-	@Column(name = "grado_actividad_marcial")
+	@NotBlank
 	private String gradoActividadMarcial;
 	
-	@Column(name = "certificado_medico")
+	@NotBlank
 	private String certificadoMedico;
 	
-	@Column(name = "carta_responsiva")
+	@NotBlank
 	private String cartaResponsiva;
 	
-	@ManyToMany(mappedBy = "alumnosParticipantes")
-	private Set<Examen> examenesParticipados;
-	
-	public Alumno() {
-		
-	}
+	private List<ExamenDTO> examenesParticipados;
 
-	public Alumno(Integer id, Integer idUsuario,
+	public AlumnoDTO(Integer id,
 			String nombre,
 			String apellidos,
-			Date fechaNacimiento, String fotografia, String actividadMarcial, String seguroMedico,
-			String gradoActividadMarcial, String certificadoMedico, String cartaResponsiva) {
+			Date fechaNacimiento, String fotografia, String actividadMarcial,
+			String seguroMedico,  String gradoActividadMarcial, String certificadoMedico,
+			String cartaResponsiva) {
 		super();
 		this.id = id;
-		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;
@@ -81,14 +68,6 @@ public class Alumno {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {
@@ -163,21 +142,20 @@ public class Alumno {
 		this.cartaResponsiva = cartaResponsiva;
 	}
 
-	public Set<Examen> getExamenesParticipados() {
+	public List<ExamenDTO> getExamenesParticipados() {
 		return examenesParticipados;
 	}
 
-	public void setExamenesParticipados(Set<Examen> examenesParticipados) {
+	public void setExamenesParticipados(List<ExamenDTO> examenesParticipados) {
 		this.examenesParticipados = examenesParticipados;
 	}
 
 	@Override
 	public String toString() {
-		return "Alumno [id=" + id + ", idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellidos=" + apellidos
-				+ ", fechaNacimiento=" + fechaNacimiento + ", fotografía=" + fotografia + ", actividadMarcial="
-				+ actividadMarcial + ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial="
-				+ gradoActividadMarcial + ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva="
-				+ cartaResponsiva + "]";
+		return "AlumnoDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
+				+ fechaNacimiento + ", fotografia=" + fotografia + ", actividadMarcial=" + actividadMarcial
+				+ ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial=" + gradoActividadMarcial
+				+ ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva=" + cartaResponsiva + "]";
 	}
-}
 	
+}

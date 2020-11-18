@@ -1,7 +1,6 @@
 package com.taekwondo.controller;
 
 import java.util.HashMap;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taekwondo.model.Alumno;
+import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.service.AlumnoService;
+import com.taekwondo.service.ExamenService;
 
 @RestController
 public class AlumnoController {
@@ -24,9 +25,12 @@ public class AlumnoController {
 	@Autowired
 	private AlumnoService aSrv;
 	
+	@Autowired
+	private ExamenService eSrv;
+	
 	@GetMapping("/alumnos/{id}")
 	public ResponseEntity<Object> getAlumno(@PathVariable int id) {
-		Alumno alumno = this.aSrv.getAlumno(id);
+		AlumnoDTO alumno = this.aSrv.getAlumnoDto(id);
 		return new ResponseEntity<Object>(alumno, HttpStatus.OK);
 	}
 	
@@ -35,9 +39,9 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(this.aSrv.getAlumnos(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/usuarios/{id_usuario}/alumno")
-	public ResponseEntity<Object> getUsuarioAlumno(@PathVariable("id_usuario") int idUsuario) {
-		return new ResponseEntity<Object>(this.aSrv.getUsuarioAlumno(idUsuario), HttpStatus.OK);
+	@GetMapping("/alumnos/{id_alumno}/examenes")
+	public ResponseEntity<Object> getExamenesAlumno(@PathVariable("id_alumno") int idAlumno) {
+		return new ResponseEntity<Object>(eSrv.getExamenesAlumno(idAlumno), HttpStatus.OK);
 	}
 	
 	@PostMapping("/usuarios/{id_usuario}/alumno")
@@ -56,21 +60,14 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/usuarios/{id_usuario}/alumno/{id}")
-	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody Alumno alumno, @PathVariable int id, @PathVariable("id_usuario") int idUsuario) {
+	@PutMapping("/alumnos/{id}")
+	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody Alumno alumno, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		if(alumno.getId() != id) {
 			response.put("status", "failure");
 			response.put("message", "Los identificadores no coinciden");
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 		}
-		
-		if(alumno.getIdUsuario() != idUsuario) {
-			response.put("status", "failure");
-			response.put("message", "Los identificadores del usuario no coinciden");
-			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
-		}
-		
 		this.aSrv.updateAlumno(alumno);
 		response.put("status", "success");
 		response.put("message", "Alumno actualizado exitosamente");
@@ -85,5 +82,5 @@ public class AlumnoController {
 		response.put("message", "Alumno eliminado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
-	
+
 }

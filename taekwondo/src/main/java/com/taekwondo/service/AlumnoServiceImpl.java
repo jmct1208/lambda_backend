@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.taekwondo.model.Alumno;
+import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.repository.AlumnoRepository;
 
 @Service
@@ -15,18 +16,8 @@ public class AlumnoServiceImpl implements AlumnoService {
 	private AlumnoRepository aRep;
 
 	@Override
-	public Alumno getAlumno(int id) {
-		return this.aRep.findById(id);
-	}
-
-	@Override
-	public Alumno getUsuarioAlumno(int id_usuario) {
-		return this.aRep.getUsuarioAlumno(id_usuario);
-	}
-
-	@Override
-	public List<Alumno> getAlumnos() {
-		return aRep.findAll();
+	public List<AlumnoDTO> getAlumnos() {
+		return aRep.findAllDto();
 	}
 
 	@Override
@@ -45,6 +36,22 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public void deleteAlumno(int id) {
 		this.aRep.deleteById(id);
 		
+	}
+	
+	@Override
+	public List<AlumnoDTO> getAlumnosExamen(int id) {
+		return this.aRep.findByExamenId(id) ;
+	}
+
+	@Override
+	public Alumno getAlumno(int id) {
+		return this.aRep.getOne(id);
+	}
+
+	@Override
+	public AlumnoDTO getAlumnoDto(int id) {
+		// TODO Auto-generated method stub
+		return this.aRep.findById(id);
 	}
 
 }
