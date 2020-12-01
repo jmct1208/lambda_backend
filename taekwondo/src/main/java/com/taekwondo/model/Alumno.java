@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Alumno {
 	
@@ -19,6 +21,7 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonProperty("id_usuario")
 	@Column(name = "usuario_id")
 	private Integer idUsuario;
 	
@@ -28,24 +31,30 @@ public class Alumno {
 	@Size(min=2, message="Los apellidos de la persona deben tener al menos 2 letras")
 	private String apellidos;
 	
+	@JsonProperty("fecha_nacimiento")
 	@Past
 	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
 	
 	private String fotografia;
 	
+	@JsonProperty("actividad_marcial")
 	@Column(name = "actividad_marcial")
 	private String actividadMarcial;
 	
+	@JsonProperty("seguro_medico")
 	@Column(name = "seguro_medico")
 	private String seguroMedico;
 	
+	@JsonProperty("grado_actividad_marcial")
 	@Column(name = "grado_actividad_marcial")
 	private String gradoActividadMarcial;
 	
+	@JsonProperty("certificado_medico")
 	@Column(name = "certificado_medico")
 	private String certificadoMedico;
 	
+	@JsonProperty("carta_responsiva")
 	@Column(name = "carta_responsiva")
 	private String cartaResponsiva;
 	

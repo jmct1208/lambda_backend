@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taekwondo.model.*;
-import com.taekwondo.services.EventoService;
-import com.taekwondo.services.AlumnoService;
+import com.taekwondo.service.EventoService;
+import com.taekwondo.service.AlumnoService;
 
 @RestController
 public class EventoController {

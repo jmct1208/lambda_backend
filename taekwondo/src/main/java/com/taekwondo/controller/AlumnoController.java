@@ -28,23 +28,23 @@ public class AlumnoController {
 	@Autowired
 	private ExamenService eSrv;
 	
-	@GetMapping("/alumnos/{id}")
+	@GetMapping("/alumno/{id}")
 	public ResponseEntity<Object> getAlumno(@PathVariable int id) {
 		AlumnoDTO alumno = this.aSrv.getAlumnoDto(id);
 		return new ResponseEntity<Object>(alumno, HttpStatus.OK);
 	}
 	
-	@GetMapping("/alumnos")
+	@GetMapping("/alumno")
 	public ResponseEntity<Object> getAlumnos() {
 		return new ResponseEntity<Object>(this.aSrv.getAlumnos(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/alumnos/{id_alumno}/examenes")
+	@GetMapping("/alumno/{id_alumno}/examenes")
 	public ResponseEntity<Object> getExamenesAlumno(@PathVariable("id_alumno") int idAlumno) {
 		return new ResponseEntity<Object>(eSrv.getExamenesAlumno(idAlumno), HttpStatus.OK);
 	}
 	
-	@PostMapping("/usuarios/{id_usuario}/alumno")
+	@PostMapping("/alumno")
 	public ResponseEntity<Object> createAlumno(@Valid @RequestBody Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		
@@ -60,7 +60,7 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/alumnos/{id}")
+	@PutMapping("/alumno/{id}")
 	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody Alumno alumno, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		if(alumno.getId() != id) {
@@ -74,7 +74,7 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/alumnos/{id}")
+	@DeleteMapping("/alumno/{id}")
 	public ResponseEntity<Object> deleteAlumno(@PathVariable int id){
 		this.aSrv.deleteAlumno(id);
 		HashMap<String, String> response = new HashMap<String, String>();

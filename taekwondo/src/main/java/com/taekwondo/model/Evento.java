@@ -23,10 +23,7 @@ public class Evento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(name = "tipo_evento_id")
-	private Integer idTipoEvento;
-	
+		
 	@Size(min = 2, message = "El nombre debe tener al menos dos caracteres")
 	private String nombre;
 	
@@ -64,14 +61,13 @@ public class Evento {
 		
 	}
 
-	public Evento(Integer id, Integer idTipoEvento,
+	public Evento(Integer id,
 			@Size(min = 2, message = "El nombre debe tener al menos dos caracteres") String nombre,
 			@Size(min = 2, message = "La descripción debe tener al menos 4 caracteres") String descripcion,
 			@Future Date fechaInicio, @Future Date fechaFin, @PositiveOrZero Double costo,
 			@NotBlank String enlaceFacebook) {
 		super();
 		this.id = id;
-		this.idTipoEvento = idTipoEvento;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
@@ -86,14 +82,6 @@ public class Evento {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getIdTipoEvento() {
-		return idTipoEvento;
-	}
-
-	public void setIdTipoEvento(Integer idTipoEvento) {
-		this.idTipoEvento = idTipoEvento;
 	}
 
 	public String getNombre() {

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taekwondo.model.*;
-import com.taekwondo.services.TipoEventoService;
+import com.taekwondo.service.TipoEventoService;
 
 @RestController
 public class TipoEventoController {
@@ -35,9 +36,7 @@ public class TipoEventoController {
 	
 	@PostMapping("/tipoEvento")
 	public ResponseEntity<Object> createTipoEvento(@Valid @RequestBody TipoEvento tipoEvento){
-		ResponseEntity<Object> savedTipoEvento = tipoEventoService.createTipoEvento(tipoEvento);
-		
-		return null;
+		return new ResponseEntity<Object>(tipoEventoService.createTipoEvento(tipoEvento), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/tipoEvento/{id}")

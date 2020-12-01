@@ -1,4 +1,4 @@
-package com.taekwondo.services;
+package com.taekwondo.service;
 
 
 import com.taekwondo.model.*;

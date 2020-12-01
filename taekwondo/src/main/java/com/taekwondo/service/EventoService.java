@@ -1,4 +1,4 @@
-package com.taekwondo.services;
+package com.taekwondo.service;
 
 import java.util.List;
 import com.taekwondo.model.*;
