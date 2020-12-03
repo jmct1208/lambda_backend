@@ -24,32 +24,32 @@ public class ExamenDTO {
 	private String tipo;
 	
 	@Future
-	private Date fechaHora;
+	private Date fecha;
 	
 	@PositiveOrZero
 	private Double costo;
 	
 	@NotBlank
-	@Column(name = "enlace_facebook")
-	private String enlaceFacebook;
+	@Column(name = "enlace")
+	private String enlace;
 	
 	@NotBlank
-	@Column(name = "solicitud_examen")
-	private String solicitudExamen;
+	@Column(name = "solicitud")
+	private String solicitud;
 	
 	private List<AlumnoDTO> alumnosParticipantes;
 	
 	public ExamenDTO(Integer id, String nombre,
-			String tipo, Date fechaHora, Double costo,
-			String enlaceFacebook, String solicitudExamen) {
+			String tipo, Date fecha, Double costo,
+			String enlace, String solicitud) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.fechaHora = fechaHora;
+		this.fecha = fecha;
 		this.costo = costo;
-		this.enlaceFacebook = enlaceFacebook;
-		this.solicitudExamen = solicitudExamen;
+		this.enlace = enlace;
+		this.solicitud = solicitud;
 	}
 
 	public Integer getId() {
@@ -76,12 +76,12 @@ public class ExamenDTO {
 		this.tipo = tipo;
 	}
 
-	public Date getFechaHora() {
-		return fechaHora;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setFechaHora(Date fechaHora) {
-		this.fechaHora = fechaHora;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public Double getCosto() {
@@ -92,20 +92,20 @@ public class ExamenDTO {
 		this.costo = costo;
 	}
 
-	public String getEnlaceFacebook() {
-		return enlaceFacebook;
+	public String getEnlace() {
+		return enlace;
 	}
 
-	public void setEnlaceFacebook(String enlaceFacebook) {
-		this.enlaceFacebook = enlaceFacebook;
+	public void setEnlace(String enlace) {
+		this.enlace = enlace;
 	}
 
-	public String getSolicitudExamen() {
-		return solicitudExamen;
+	public String getSolicitud() {
+		return solicitud;
 	}
 
-	public void setSolicitudExamen(String solicitudExamen) {
-		this.solicitudExamen = solicitudExamen;
+	public void setSolicitud(String solicitud) {
+		this.solicitud = solicitud;
 	}
 
 	public List<AlumnoDTO> getAlumnosParticipantes() {
@@ -118,8 +118,8 @@ public class ExamenDTO {
 
 	@Override
 	public String toString() {
-		return "ExamenDTO [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", costo="
-				+ costo + ", enlaceFacebook=" + enlaceFacebook + ", solicitudExamen=" + solicitudExamen + "]";
+		return "ExamenDTO [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", fecha=" + fecha + ", costo="
+				+ costo + ", enlace=" + enlace + ", solicitud=" + solicitud + "]";
 	}
 	
 }

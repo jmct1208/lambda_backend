@@ -1,5 +1,6 @@
 package com.taekwondo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "usuario_id")
-	private Integer idUsuario;
+	@Column(name = "usuario")
+	private Integer usuario;
 	
 	@Size(min=2, message="El nombre de la persona debe tener al menos 2 letras")
 	private String nombre;
@@ -29,25 +30,27 @@ public class Alumno {
 	private String apellidos;
 	
 	@Past
-	@Column(name = "fecha_nacimiento")
-	private Date fechaNacimiento;
+	@JsonProperty("fecha")
+	private Date fecha;
 	
 	private String fotografia;
 	
-	@Column(name = "actividad_marcial")
-	private String actividadMarcial;
+	@JsonProperty("actividad")
+	@Column(name = "actividad")
+	private String actividad;
 	
-	@Column(name = "seguro_medico")
-	private String seguroMedico;
+	@JsonProperty("seguro")
+	private String seguro;
+
+	@JsonProperty("grado")
+	@Column(name = "grado")
+	private String grado;
+
+	@JsonProperty("certificado")
+	private String certificado;
 	
-	@Column(name = "grado_actividad_marcial")
-	private String gradoActividadMarcial;
-	
-	@Column(name = "certificado_medico")
-	private String certificadoMedico;
-	
-	@Column(name = "carta_responsiva")
-	private String cartaResponsiva;
+	@JsonProperty("carta")
+	private String carta;
 	
 	@ManyToMany(mappedBy = "alumnosParticipantes")
 	private Set<Examen> examenesParticipados;
@@ -56,23 +59,23 @@ public class Alumno {
 		
 	}
 
-	public Alumno(Integer id, Integer idUsuario,
+	public Alumno(Integer id, Integer usuario,
 			String nombre,
 			String apellidos,
-			Date fechaNacimiento, String fotografia, String actividadMarcial, String seguroMedico,
-			String gradoActividadMarcial, String certificadoMedico, String cartaResponsiva) {
+			Date fecha, String fotografia, String actividad, String seguro,
+			String grado, String certificado, String carta) {
 		super();
 		this.id = id;
-		this.idUsuario = idUsuario;
+		this.usuario = usuario;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.fechaNacimiento = fechaNacimiento;
+		this.fecha = fecha;
 		this.fotografia = fotografia;
-		this.actividadMarcial = actividadMarcial;
-		this.seguroMedico = seguroMedico;
-		this.gradoActividadMarcial = gradoActividadMarcial;
-		this.certificadoMedico = certificadoMedico;
-		this.cartaResponsiva = cartaResponsiva;
+		this.actividad = actividad;
+		this.seguro = seguro;
+		this.grado = grado;
+		this.certificado = certificado;
+		this.carta = carta;
 	}
 
 	public Integer getId() {
@@ -84,11 +87,11 @@ public class Alumno {
 	}
 
 	public Integer getIdUsuario() {
-		return idUsuario;
+		return usuario;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdUsuario(Integer usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getNombre() {
@@ -107,12 +110,12 @@ public class Alumno {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
-		return fechaNacimiento;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public String getFotografia() {
@@ -124,43 +127,43 @@ public class Alumno {
 	}
 
 	public String getActividadMarcial() {
-		return actividadMarcial;
+		return actividad;
 	}
 
-	public void setActividadMarcial(String actividadMarcial) {
-		this.actividadMarcial = actividadMarcial;
+	public void setActividadMarcial(String actividad) {
+		this.actividad = actividad;
 	}
 
 	public String getSeguroMedico() {
-		return seguroMedico;
+		return seguro;
 	}
 
-	public void setSeguroMedico(String seguroMedico) {
-		this.seguroMedico = seguroMedico;
+	public void setSeguroMedico(String seguro) {
+		this.seguro = seguro;
 	}
 
 	public String getGradoActividadMarcial() {
-		return gradoActividadMarcial;
+		return grado;
 	}
 
-	public void setGradoActividadMarcial(String gradoActividadMarcial) {
-		this.gradoActividadMarcial = gradoActividadMarcial;
+	public void setGradoActividadMarcial(String grado) {
+		this.grado = grado;
 	}
 
 	public String getCertificadoMedico() {
-		return certificadoMedico;
+		return certificado;
 	}
 
-	public void setCertificadoMedico(String certificadoMedico) {
-		this.certificadoMedico = certificadoMedico;
+	public void setCertificadoMedico(String certificado) {
+		this.certificado = certificado;
 	}
 
 	public String getCartaResponsiva() {
-		return cartaResponsiva;
+		return carta;
 	}
 
-	public void setCartaResponsiva(String cartaResponsiva) {
-		this.cartaResponsiva = cartaResponsiva;
+	public void setCartaResponsiva(String carta) {
+		this.carta = carta;
 	}
 
 	public Set<Examen> getExamenesParticipados() {
@@ -173,11 +176,11 @@ public class Alumno {
 
 	@Override
 	public String toString() {
-		return "Alumno [id=" + id + ", idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellidos=" + apellidos
-				+ ", fechaNacimiento=" + fechaNacimiento + ", fotografía=" + fotografia + ", actividadMarcial="
-				+ actividadMarcial + ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial="
-				+ gradoActividadMarcial + ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva="
-				+ cartaResponsiva + "]";
+		return "Alumno [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", apellidos=" + apellidos
+				+ ", fecha=" + fecha + ", fotografía=" + fotografia + ", actividad="
+				+ actividad + ", seguro=" + seguro + ", grado="
+				+ grado + ", certificado=" + certificado + ", carta="
+				+ carta + "]";
 	}
 }
 	

@@ -44,15 +44,15 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(eSrv.getExamenesAlumno(idAlumno), HttpStatus.OK);
 	}
 	
-	@PostMapping("/usuarios/{id_usuario}/alumno")
-	public ResponseEntity<Object> createAlumno(@Valid @RequestBody Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
+	@PostMapping("/alumno")
+	public ResponseEntity<Object> createAlumno(@Valid @RequestBody Alumno alumno) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		
-		if(alumno.getIdUsuario() != idUsuario) {
+		System.out.println(alumno.toString());
+		/*if(alumno.getIdUsuario() != idUsuario) {
 			response.put("status", "failure");
 			response.put("message", "Los identificadores del usuario no coinciden");
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
-		}
+		}**/
 		
 		this.aSrv.createAlumno(alumno);
 		response.put("status", "success");
@@ -62,6 +62,7 @@ public class AlumnoController {
 
 	@PutMapping("/alumnos/{id}")
 	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody Alumno alumno, @PathVariable int id) {
+		System.out.println(alumno.toString());
 		HashMap<String, String> response = new HashMap<String, String>();
 		if(alumno.getId() != id) {
 			response.put("status", "failure");

@@ -21,45 +21,45 @@ public class AlumnoDTO {
 	private String apellidos;
 	
 	@Past
-	private Date fechaNacimiento;
+	private Date fecha;
 	
 	@NotBlank
 	private String fotografia;
 	
 	@NotBlank
-	private String actividadMarcial;
+	private String actividad;
 	
 	@NotBlank
-	private String seguroMedico;
+	private String seguro;
 	
 	@NotBlank
-	private String gradoActividadMarcial;
+	private String grado;
 	
 	@NotBlank
-	private String certificadoMedico;
+	private String certificado;
 	
 	@NotBlank
-	private String cartaResponsiva;
+	private String carta;
 	
 	private List<ExamenDTO> examenesParticipados;
 
 	public AlumnoDTO(Integer id,
 			String nombre,
 			String apellidos,
-			Date fechaNacimiento, String fotografia, String actividadMarcial,
-			String seguroMedico,  String gradoActividadMarcial, String certificadoMedico,
-			String cartaResponsiva) {
+			Date fecha, String fotografia, String actividad,
+			String seguro,  String grado, String certificado,
+			String carta) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.fechaNacimiento = fechaNacimiento;
+		this.fecha = fecha;
 		this.fotografia = fotografia;
-		this.actividadMarcial = actividadMarcial;
-		this.seguroMedico = seguroMedico;
-		this.gradoActividadMarcial = gradoActividadMarcial;
-		this.certificadoMedico = certificadoMedico;
-		this.cartaResponsiva = cartaResponsiva;
+		this.actividad = actividad;
+		this.seguro = seguro;
+		this.grado = grado;
+		this.certificado = certificado;
+		this.carta = carta;
 	}
 
 	public Integer getId() {
@@ -86,12 +86,12 @@ public class AlumnoDTO {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
-		return fechaNacimiento;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public String getFotografia() {
@@ -103,43 +103,43 @@ public class AlumnoDTO {
 	}
 
 	public String getActividadMarcial() {
-		return actividadMarcial;
+		return actividad;
 	}
 
-	public void setActividadMarcial(String actividadMarcial) {
-		this.actividadMarcial = actividadMarcial;
+	public void setActividadMarcial(String actividad) {
+		this.actividad = actividad;
 	}
 
 	public String getSeguroMedico() {
-		return seguroMedico;
+		return seguro;
 	}
 
-	public void setSeguroMedico(String seguroMedico) {
-		this.seguroMedico = seguroMedico;
+	public void setSeguroMedico(String seguro) {
+		this.seguro = seguro;
 	}
 
 	public String getGradoActividadMarcial() {
-		return gradoActividadMarcial;
+		return grado;
 	}
 
-	public void setGradoActividadMarcial(String gradoActividadMarcial) {
-		this.gradoActividadMarcial = gradoActividadMarcial;
+	public void setGradoActividadMarcial(String grado) {
+		this.grado = grado;
 	}
 
 	public String getCertificadoMedico() {
-		return certificadoMedico;
+		return certificado;
 	}
 
-	public void setCertificadoMedico(String certificadoMedico) {
-		this.certificadoMedico = certificadoMedico;
+	public void setCertificadoMedico(String certificado) {
+		this.certificado = certificado;
 	}
 
-	public String getCartaResponsiva() {
-		return cartaResponsiva;
+	public String getCarta() {
+		return carta;
 	}
 
-	public void setCartaResponsiva(String cartaResponsiva) {
-		this.cartaResponsiva = cartaResponsiva;
+	public void setCarta(String carta) {
+		this.carta = carta;
 	}
 
 	public List<ExamenDTO> getExamenesParticipados() {
@@ -152,10 +152,10 @@ public class AlumnoDTO {
 
 	@Override
 	public String toString() {
-		return "AlumnoDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
-				+ fechaNacimiento + ", fotografia=" + fotografia + ", actividadMarcial=" + actividadMarcial
-				+ ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial=" + gradoActividadMarcial
-				+ ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva=" + cartaResponsiva + "]";
+		return "AlumnoDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fecha="
+				+ fecha + ", fotografia=" + fotografia + ", actividad=" + actividad
+				+ ", seguro=" + seguro + ", grado=" + grado
+				+ ", certificado=" + certificado + ", carta=" + carta + "]";
 	}
 	
 }

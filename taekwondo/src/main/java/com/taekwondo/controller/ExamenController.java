@@ -67,7 +67,7 @@ public class ExamenController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@PutMapping("/examenes/{id_examen}/alumnos/add/{id_alumno}")
+	@GetMapping("/examenes/{id_examen}/alumnos/add/{id_alumno}")
 	public ResponseEntity<Object> addAlumno(@PathVariable("id_examen") int idExamen, @PathVariable("id_alumno") int idAlumno) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.eSrv.addAlumno(idExamen, idAlumno);
@@ -76,7 +76,7 @@ public class ExamenController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@PutMapping("/examenes/{id_examen}/alumnos/delete/{id_alumno}")
+	@GetMapping("/examenes/{id_examen}/alumnos/delete/{id_alumno}")
 	public ResponseEntity<Object> deleteAlumno(@PathVariable("id_examen") int idExamen, @PathVariable("id_alumno") int idAlumno) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.eSrv.deleteAlumno(idExamen, idAlumno);

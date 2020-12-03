@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Examen {
 	
@@ -27,22 +29,27 @@ public class Examen {
 	private String nombre;
 	
 	@NotBlank
+	@JsonProperty("tipo")
 	private String tipo;
 	
 	@Future
-	@Column(name = "fecha_hora")
-	private Date fechaHora;
+	@JsonProperty("fecha")
+	@Column(name = "fecha")
+	private Date fecha;
 	
 	@PositiveOrZero
+	@JsonProperty("costo")
 	private Double costo;
 	
 	@NotBlank
-	@Column(name = "enlace_facebook")
-	private String enlaceFacebook;
+	@JsonProperty("enlace")
+	@Column(name = "enlace")
+	private String enlace;
 	
 	@NotBlank
-	@Column(name = "solicitud_examen")
-	private String solicitudExamen;
+	@JsonProperty("solicitud")
+	@Column(name = "solicitud")
+	private String solicitud;
 	
 	@ManyToMany()
 	@JoinTable(
@@ -52,16 +59,16 @@ public class Examen {
 	private Set<Alumno> alumnosParticipantes;
 	
 	public Examen(Integer id, @Size(min = 2, message = "El nombre debe tener al menos dos carácteres") String nombre,
-			@NotBlank String tipo, @Future Date fechaHora, @PositiveOrZero Double costo,
-			@NotBlank String enlaceFacebook, @NotBlank String solicitudExamen) {
+			@NotBlank String tipo, @Future Date fecha, @PositiveOrZero Double costo,
+			@NotBlank String enlace, @NotBlank String solicitud) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.fechaHora = fechaHora;
+		this.fecha = fecha;
 		this.costo = costo;
-		this.enlaceFacebook = enlaceFacebook;
-		this.solicitudExamen = solicitudExamen;
+		this.enlace = enlace;
+		this.solicitud = solicitud;
 	}
 
 	public Examen() {
@@ -92,12 +99,12 @@ public class Examen {
 		this.tipo = tipo;
 	}
 
-	public Date getFechaHora() {
-		return fechaHora;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setFechaHora(Date fechaHora) {
-		this.fechaHora = fechaHora;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public Double getCosto() {
@@ -108,16 +115,16 @@ public class Examen {
 		this.costo = costo;
 	}
 
-	public String getEnlaceFacebook() {
-		return enlaceFacebook;
+	public String getEnlace() {
+		return enlace;
 	}
 
-	public void setEnlaceFacebook(String enlaceFacebook) {
-		this.enlaceFacebook = enlaceFacebook;
+	public void setEnlace(String enlace) {
+		this.enlace = enlace;
 	}
 
-	public String getSolicitudExamen() {
-		return solicitudExamen;
+	public String getSolicitud() {
+		return solicitud;
 	}
 
 	public Set<Alumno> getAlumnosParticipantes() {
@@ -128,14 +135,14 @@ public class Examen {
 		this.alumnosParticipantes = alumnosParticipantes;
 	}
 
-	public void setSolicitudExamen(String solicitudExamen) {
-		this.solicitudExamen = solicitudExamen;
+	public void setSolicitud(String solicitud) {
+		this.solicitud = solicitud;
 	}
 
 	@Override
 	public String toString() {
-		return "Examen [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", costo="
-				+ costo + ", enlaceFacebook=" + enlaceFacebook + ", solicitudExamen=" + solicitudExamen + "]";
+		return "Examen [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", fecha=" + fecha + ", costo="
+				+ costo + ", enlace=" + enlace + ", solicitud=" + solicitud + "]";
 	}
 	
 }
