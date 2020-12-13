@@ -31,21 +31,33 @@ public class ExamenController {
 	@GetMapping("/examenes/{id}")
 	public ResponseEntity<Object> getExamen(@PathVariable int id) {
 		ExamenDTO examen = this.eSrv.getExamenDto(id);
+		System.out.println(examen);
 		return new ResponseEntity<Object>(examen, HttpStatus.OK);
 	}
 	
 	@GetMapping("/examenes")
 	public ResponseEntity<Object> getExamenes() {
-		return new ResponseEntity<Object>(this.eSrv.getExamenes(), HttpStatus.OK);
+		return new ResponseEntity<Object>(this.eSrv.getExamenes(), 
+				HttpStatus.OK);
 	}
 	
 	@GetMapping("/examenes/{id_examen}/alumnos")
-	public ResponseEntity<Object> getAlumnosExamen(@PathVariable("id_examen") int idExamen) {
-		return new ResponseEntity<Object>(aSrv.getAlumnosExamen(idExamen), HttpStatus.OK);
+	public ResponseEntity<Object> getAlumnosExamen(@PathVariable("id_examen") 
+			int idExamen) {
+		return new ResponseEntity<Object>(aSrv.getAlumnosExamen(idExamen), 
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("examenes/{id_examen}/not_alumnos")
+	public ResponseEntity<Object> getAlumnosNotExamen(@PathVariable("id_examen")
+			int idExamen) {
+		return new ResponseEntity<Object>(aSrv.getAlumnosNotExamen(idExamen),
+				HttpStatus.OK);
 	}
 	
 	@PostMapping("/examenes")
-	public ResponseEntity<Object> createExamen(@Valid @RequestBody Examen examen) {
+	public ResponseEntity<Object> createExamen(@Valid @RequestBody 
+			Examen examen) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.eSrv.createExamen(examen);
 		response.put("status", "success");
@@ -54,7 +66,8 @@ public class ExamenController {
 	}
 	
 	@PutMapping("/examenes/{id_examen}")
-	public ResponseEntity<Object> updateExamen(@Valid @RequestBody Examen examen, @PathVariable("id_examen") int idExamen) {
+	public ResponseEntity<Object> updateExamen(@Valid @RequestBody 
+			Examen examen, @PathVariable("id_examen") int idExamen) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		if(examen.getId() != idExamen) {
 			response.put("status", "failure");
@@ -67,8 +80,9 @@ public class ExamenController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@PutMapping("/examenes/{id_examen}/alumnos/add/{id_alumno}")
-	public ResponseEntity<Object> addAlumno(@PathVariable("id_examen") int idExamen, @PathVariable("id_alumno") int idAlumno) {
+	@PutMapping("/examenes/{id_examen}/alumnos/{id_alumno}")
+	public ResponseEntity<Object> addAlumno(@PathVariable("id_examen") 
+			int idExamen, @PathVariable("id_alumno") int idAlumno) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.eSrv.addAlumno(idExamen, idAlumno);
 		response.put("status", "success");
@@ -76,8 +90,9 @@ public class ExamenController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@PutMapping("/examenes/{id_examen}/alumnos/delete/{id_alumno}")
-	public ResponseEntity<Object> deleteAlumno(@PathVariable("id_examen") int idExamen, @PathVariable("id_alumno") int idAlumno) {
+	@DeleteMapping("/examenes/{id_examen}/alumnos/{id_alumno}")
+	public ResponseEntity<Object> deleteAlumno(@PathVariable("id_examen") 
+			int idExamen, @PathVariable("id_alumno") int idAlumno) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.eSrv.deleteAlumno(idExamen, idAlumno);
 		response.put("status", "success");
@@ -86,7 +101,8 @@ public class ExamenController {
 	}
 	
 	@DeleteMapping("/examenes/{id_examen}")
-	public ResponseEntity<Object> deleteExamen(@PathVariable int id) {
+	public ResponseEntity<Object> deleteExamen(@PathVariable("id_examen") 
+			int id) {
 		this.eSrv.deleteExamen(id);
 		HashMap<String, String> response = new HashMap<String, String>();
 		response.put("status", "success");

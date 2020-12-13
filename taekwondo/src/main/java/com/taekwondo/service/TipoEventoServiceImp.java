@@ -3,8 +3,6 @@ package com.taekwondo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.taekwondo.model.TipoEvento;
@@ -21,17 +19,17 @@ public class TipoEventoServiceImp implements TipoEventoService{
 	}
 
 	@Override
-	public ResponseEntity<Object> getTipoEvento(int id) {
-		return new ResponseEntity<>(repoTipoEvento.findById(id), HttpStatus.OK);
+	public TipoEvento getTipoEvento(int id) {
+		return this.repoTipoEvento.getOne(id);
 	}
 
 	@Override
-	public ResponseEntity<Object> createTipoEvento(TipoEvento tipoEvento) {
-		return new ResponseEntity<>(repoTipoEvento.save(tipoEvento), HttpStatus.OK);
+	public void createTipoEvento(TipoEvento tipoEvento) {
+		this.repoTipoEvento.save(tipoEvento);
 	}
 
 	@Override
-	public void updateTipoEvento(int id, TipoEvento tipoEvento) {
+	public void updateTipoEvento(TipoEvento tipoEvento) {
 		repoTipoEvento.save(tipoEvento);
 		
 	}

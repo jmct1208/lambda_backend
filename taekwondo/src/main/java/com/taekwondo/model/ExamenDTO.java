@@ -1,47 +1,32 @@
 package com.taekwondo.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExamenDTO {
 	
 	private Integer id;
 	
-	@Size(min = 2, message = "El nombre debe tener al menos dos carácteres")
 	private String nombre;
 	
-	@NotBlank
 	private String tipo;
 	
-	@Future
-	private Date fechaHora;
+	@JsonProperty("fecha_hora")
+	private LocalDateTime fechaHora;
 	
-	@PositiveOrZero
 	private Double costo;
 	
-	@NotBlank
-	@Column(name = "enlace_facebook")
+	@JsonProperty("enlace")
 	private String enlaceFacebook;
 	
-	@NotBlank
-	@Column(name = "solicitud_examen")
+	@JsonProperty("solicitud")
 	private String solicitudExamen;
-	
-	private List<AlumnoDTO> alumnosParticipantes;
-	
-	public ExamenDTO(Integer id, String nombre,
-			String tipo, Date fechaHora, Double costo,
-			String enlaceFacebook, String solicitudExamen) {
+
+	public ExamenDTO(Integer id, String nombre, String tipo, LocalDateTime fechaHora, Double costo, String enlaceFacebook,
+			String solicitudExamen) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -76,11 +61,11 @@ public class ExamenDTO {
 		this.tipo = tipo;
 	}
 
-	public Date getFechaHora() {
+	public LocalDateTime getFechaHora() {
 		return fechaHora;
 	}
 
-	public void setFechaHora(Date fechaHora) {
+	public void setFechaHora(LocalDateTime fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 
@@ -108,18 +93,9 @@ public class ExamenDTO {
 		this.solicitudExamen = solicitudExamen;
 	}
 
-	public List<AlumnoDTO> getAlumnosParticipantes() {
-		return alumnosParticipantes;
-	}
-
-	public void setAlumnosParticipantes(List<AlumnoDTO> alumnosParticipantes) {
-		this.alumnosParticipantes = alumnosParticipantes;
-	}
-
 	@Override
 	public String toString() {
 		return "ExamenDTO [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", costo="
 				+ costo + ", enlaceFacebook=" + enlaceFacebook + ", solicitudExamen=" + solicitudExamen + "]";
 	}
-	
 }

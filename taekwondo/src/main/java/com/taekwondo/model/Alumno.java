@@ -1,14 +1,16 @@
 package com.taekwondo.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -18,61 +20,66 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Alumno {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@JsonProperty("id_usuario")
-	@Column(name = "usuario_id")
-	private Integer idUsuario;
 	
 	@Size(min=2, message="El nombre de la persona debe tener al menos 2 letras")
 	private String nombre;
 	
-	@Size(min=2, message="Los apellidos de la persona deben tener al menos 2 letras")
+	@Size(min=2, message="Los apellidos de la persona deben tener al menos 2" +
+			" letras")
 	private String apellidos;
 	
-	@JsonProperty("fecha_nacimiento")
+	@JsonProperty("fecha")
 	@Past
 	@Column(name = "fecha_nacimiento")
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 	private String fotografia;
 	
-	@JsonProperty("actividad_marcial")
+	@JsonProperty("actividad")
 	@Column(name = "actividad_marcial")
 	private String actividadMarcial;
 	
-	@JsonProperty("seguro_medico")
+	@JsonProperty("seguro")
 	@Column(name = "seguro_medico")
 	private String seguroMedico;
 	
-	@JsonProperty("grado_actividad_marcial")
+	@JsonProperty("grado")
 	@Column(name = "grado_actividad_marcial")
 	private String gradoActividadMarcial;
 	
-	@JsonProperty("certificado_medico")
+	@JsonProperty("certificado")
 	@Column(name = "certificado_medico")
 	private String certificadoMedico;
 	
-	@JsonProperty("carta_responsiva")
+	@JsonProperty("carta")
 	@Column(name = "carta_responsiva")
 	private String cartaResponsiva;
 	
-	@ManyToMany(mappedBy = "alumnosParticipantes")
+	@ManyToMany(mappedBy = "alumnosParticipantesExamen")
 	private Set<Examen> examenesParticipados;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId
+	@JoinColumn(name = "id")
+	private Usuario usuario;
+	
+	@ManyToMany(mappedBy = "alumnosParticipantesEvento")
+	private Set<Evento> eventosParticipados;
 	
 	public Alumno() {
 		
 	}
 
-	public Alumno(Integer id, Integer idUsuario,
-			String nombre,
-			String apellidos,
-			Date fechaNacimiento, String fotografia, String actividadMarcial, String seguroMedico,
-			String gradoActividadMarcial, String certificadoMedico, String cartaResponsiva) {
+	public Alumno(Integer id,
+		    String nombre,
+		    String apellidos,
+		    LocalDate fechaNacimiento, String fotografia, 
+		    String actividadMarcial, String seguroMedico,
+			String gradoActividadMarcial, String certificadoMedico, 
+			String cartaResponsiva) {
 		super();
 		this.id = id;
-		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;
@@ -92,14 +99,6 @@ public class Alumno {
 		this.id = id;
 	}
 
-	public Integer getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -116,11 +115,11 @@ public class Alumno {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -180,13 +179,33 @@ public class Alumno {
 		this.examenesParticipados = examenesParticipados;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Set<Evento> getEventosParticipados() {
+		return eventosParticipados;
+	}
+
+	public void setEventosParticipados(Set<Evento> eventosParticipados) {
+		this.eventosParticipados = eventosParticipados;
+	}
+
 	@Override
 	public String toString() {
-		return "Alumno [id=" + id + ", idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellidos=" + apellidos
-				+ ", fechaNacimiento=" + fechaNacimiento + ", fotografía=" + fotografia + ", actividadMarcial="
-				+ actividadMarcial + ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial="
-				+ gradoActividadMarcial + ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva="
-				+ cartaResponsiva + "]";
+		return "Alumno [id=" + id + ", nombre=" + nombre + ", apellidos=" + 
+				apellidos + ", fechaNacimiento=" + fechaNacimiento + 
+				", fotografia=" + fotografia + ", actividadMarcial=" + 
+				actividadMarcial + ", seguroMedico=" + seguroMedico + 
+				", gradoActividadMarcial=" + gradoActividadMarcial + 
+				", certificadoMedico=" + certificadoMedico + 
+				", cartaResponsiva=" + cartaResponsiva + 
+				", examenesParticipados=" + examenesParticipados + 
+				", usuario=" + usuario + "]";
 	}
 }
 	

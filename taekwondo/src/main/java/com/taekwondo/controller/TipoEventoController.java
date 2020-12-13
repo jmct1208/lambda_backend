@@ -1,7 +1,6 @@
 package com.taekwondo.controller;
 
-import java.util.List;
-
+import java.util.HashMap;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +23,44 @@ public class TipoEventoController {
 	@Autowired
 	private TipoEventoService tipoEventoService;
 	
-	@GetMapping("/tipoEvento")
-	public List<TipoEvento> getTipoEventos(){
-		return tipoEventoService.getTipoEventos();
+	@GetMapping("/tipos_evento")
+	public ResponseEntity<Object> getTipoEventos(){
+		return new ResponseEntity<Object>(this.tipoEventoService.
+				getTipoEventos(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/tipoEvento/{id}")
+	@GetMapping("/tipos_evento/{id}")
 	public ResponseEntity<Object> getTipoEvento(@PathVariable int id){
-		return tipoEventoService.getTipoEvento(id);
+		return new ResponseEntity<Object>(this.tipoEventoService.
+				getTipoEvento(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/tipoEvento")
-	public ResponseEntity<Object> createTipoEvento(@Valid @RequestBody TipoEvento tipoEvento){
-		return new ResponseEntity<Object>(tipoEventoService.createTipoEvento(tipoEvento), HttpStatus.CREATED);
+	@PostMapping("/tipos_evento")
+	public ResponseEntity<Object> createTipoEvento(@Valid @RequestBody 
+			TipoEvento tipoEvento){
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.tipoEventoService.createTipoEvento(tipoEvento);
+		response.put("status", "success");
+		response.put("message", "Tipo de evento creado exitosamente.");
+		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/tipoEvento/{id}")
-	public void updateTipoEvento(@Valid @RequestBody TipoEvento tipoEvento, @PathVariable int id) {
-		tipoEventoService.updateTipoEvento(id, tipoEvento);
+	@PutMapping("/tipos_evento/{id}")
+	public ResponseEntity<Object> updateTipoEvento(@Valid @RequestBody
+			TipoEvento tipoEvento) {
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.tipoEventoService.updateTipoEvento(tipoEvento);
+		response.put("status", "success");
+		response.put("message", "Tipo de evento actualizado exitosamente");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/tipoEvento/{id}")
-	public void deleteTipoEvento(@PathVariable int id) {
-		tipoEventoService.deleteTipoEvento(id);
+	@DeleteMapping("/tipos_evento/{id}")
+	public ResponseEntity<Object> deleteTipoEvento(@PathVariable int id) {
+		this.tipoEventoService.deleteTipoEvento(id);
+		HashMap<String, String> response = new HashMap<String, String>();
+		response.put("status", "success");
+		response.put("message", "Tipo de evento eliminado exitosamente");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 }

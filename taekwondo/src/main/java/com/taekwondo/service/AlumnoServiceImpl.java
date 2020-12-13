@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.repository.AlumnoRepository;
+import com.taekwondo.repository.UsuarioRepository;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
 	
 	@Autowired
 	private AlumnoRepository aRep;
+	
+	@Autowired
+	private UsuarioRepository uRep;
 
 	@Override
 	public List<AlumnoDTO> getAlumnos() {
@@ -21,10 +25,11 @@ public class AlumnoServiceImpl implements AlumnoService {
 	}
 
 	@Override
-	public void createAlumno(Alumno alumno) {
+	public void createAlumno(Alumno alumno, int idUsuario) {
+		alumno.setUsuario(this.uRep.getOne(idUsuario));
 		this.aRep.save(alumno);
 		
-	}
+	}                                                                          
 
 	@Override
 	public void updateAlumno(Alumno alumno) {
@@ -42,7 +47,21 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public List<AlumnoDTO> getAlumnosExamen(int id) {
 		return this.aRep.findByExamenId(id) ;
 	}
+	
+	public List<AlumnoDTO> getAlumnosNotExamen(int id) {
+		return this.aRep.findByExamenNotId(id);
+	}
 
+	@Override
+	public List<AlumnoDTO> getAlumnosEvento(int id) {
+		return this.aRep.findByEventoId(id);
+	}
+	
+	@Override
+	public List<AlumnoDTO> getAlumnosNotEvento(int id) {
+		return this.aRep.findByEventoNotId(id);
+	}
+	
 	@Override
 	public Alumno getAlumno(int id) {
 		return this.aRep.getOne(id);

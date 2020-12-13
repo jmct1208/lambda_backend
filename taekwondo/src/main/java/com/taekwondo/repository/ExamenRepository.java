@@ -18,7 +18,6 @@ public interface ExamenRepository extends JpaRepository<Examen, Integer> {
 	@Query("SELECT new com.taekwondo.model.ExamenDTO(e.id, e.nombre, e.tipo, e.fechaHora, e.costo, e.enlaceFacebook, e.solicitudExamen) FROM Examen e WHERE e.id=?1")
 	ExamenDTO findById(int id);
 	
-	
-	@Query("SELECT new com.taekwondo.model.ExamenDTO(e.id, e.nombre, e.tipo, e.fechaHora, e.costo, e.enlaceFacebook, e.solicitudExamen) FROM Examen e INNER JOIN e.alumnosParticipantes a WHERE a.id=?1")
+	@Query("SELECT new com.taekwondo.model.ExamenDTO(e.id, e.nombre, e.tipo, e.fechaHora, e.costo, e.enlaceFacebook, e.solicitudExamen) FROM Examen e INNER JOIN e.alumnosParticipantesExamen a WHERE a.id=?1")
 	List<ExamenDTO> findByAlumnoId(int id);
 }

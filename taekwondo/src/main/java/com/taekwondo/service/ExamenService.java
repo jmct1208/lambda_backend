@@ -8,7 +8,6 @@ import com.taekwondo.model.ExamenDTO;
 public interface ExamenService {
 	
 	public abstract ExamenDTO getExamenDto(int id);
-	public abstract Examen getExamen(int id);
 	public abstract List<ExamenDTO> getExamenes();
 	public abstract List<ExamenDTO> getExamenesAlumno(int id);
 	public void createExamen(Examen examen);

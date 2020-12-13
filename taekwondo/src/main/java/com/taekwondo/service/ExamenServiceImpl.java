@@ -39,7 +39,7 @@ public class ExamenServiceImpl implements ExamenService{
 	@Override
 	@Transactional
 	public void addAlumno(int idExamen, int idAlumno) {
-		Examen examen = this.getExamen(idExamen);
+		Examen examen = this.eRep.getOne(idExamen);
 		Alumno alumno = this.aRep.getOne(idAlumno);
 		examen.getAlumnosParticipantes().add(alumno);
 		alumno.getExamenesParticipados().add(examen);
@@ -50,7 +50,7 @@ public class ExamenServiceImpl implements ExamenService{
 	@Override
 	@Transactional
 	public void deleteAlumno(int idExamen, int idAlumno) {
-		Examen examen = this.getExamen(idExamen);
+		Examen examen = this.eRep.getOne(idExamen);
 		Alumno alumno = this.aRep.getOne(idAlumno);
 		examen.getAlumnosParticipantes().remove(alumno);
 		alumno.getExamenesParticipados().remove(examen);
@@ -71,11 +71,6 @@ public class ExamenServiceImpl implements ExamenService{
 	@Override
 	public ExamenDTO getExamenDto(int id) {
 		return this.eRep.findById(id);
-	}
-
-	@Override
-	public Examen getExamen(int id) {
-		return this.eRep.getOne(id);
 	}
 
 }

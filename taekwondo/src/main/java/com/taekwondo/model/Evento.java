@@ -1,6 +1,6 @@
 package com.taekwondo.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,11 +12,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Evento {
@@ -32,21 +33,24 @@ public class Evento {
 	
 	@Future
 	@Column(name = "fecha_inicio")
-	private Date fechaInicio;
+	@JsonProperty("fecha")
+	private LocalDate fechaInicio;
 	
 	@Future
 	@Column(name = "fecha_fin")
-	private Date fechaFin;
+	@JsonProperty("fechaf")
+	private LocalDate fechaFin;
 	
 	@PositiveOrZero
 	private Double costo;
 	
 	@NotBlank
 	@Column(name = "enlace_facebook")
+	@JsonProperty("enlace")
 	private String enlaceFacebook;
 	
 	@ManyToOne
-	@JoinColumn(name = "tipo_evento_id",nullable=false)
+	@JoinColumn(name = "tipo_evento_id")
 	private TipoEvento tipoEvento;
 	
 	@ManyToMany
@@ -54,7 +58,7 @@ public class Evento {
 			name = "alumno_has_evento",
 			joinColumns = @JoinColumn(name = "Evento_id"),
 			inverseJoinColumns = @JoinColumn(name = "alumno_id"))
-	private Set<Alumno> alumnosParticipantes;
+	private Set<Alumno> alumnosParticipantesEvento;
 	
 	
 	public Evento() {
@@ -64,7 +68,7 @@ public class Evento {
 	public Evento(Integer id,
 			@Size(min = 2, message = "El nombre debe tener al menos dos caracteres") String nombre,
 			@Size(min = 2, message = "La descripción debe tener al menos 4 caracteres") String descripcion,
-			@Future Date fechaInicio, @Future Date fechaFin, @PositiveOrZero Double costo,
+			@Future LocalDate fechaInicio, @Future LocalDate fechaFin, @PositiveOrZero Double costo,
 			@NotBlank String enlaceFacebook) {
 		super();
 		this.id = id;
@@ -100,19 +104,19 @@ public class Evento {
 		this.descripcion = descripcion;
 	}
 
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
@@ -130,6 +134,22 @@ public class Evento {
 
 	public void setEnlaceFacebook(String enlaceFacebook) {
 		this.enlaceFacebook = enlaceFacebook;
+	}
+
+	public TipoEvento getTipoEvento() {
+		return tipoEvento;
+	}
+
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
+	}
+
+	public Set<Alumno> getAlumnosParticipantesEvento() {
+		return alumnosParticipantesEvento;
+	}
+
+	public void setAlumnosParticipantesEvento(Set<Alumno> alumnosParticipantesEvento) {
+		this.alumnosParticipantesEvento = alumnosParticipantesEvento;
 	}
 	
 	

@@ -1,53 +1,44 @@
 package com.taekwondo.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-
+import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AlumnoDTO {
 	
 	private Integer id;
 		
-	@Size(min=2, message="El nombre de la persona debe tener al menos 2 letras")
 	private String nombre;
 	
-	@Size(min=2, message="Los apellidos de la persona deben tener al menos 2 letras")
 	private String apellidos;
 	
-	@Past
-	private Date fechaNacimiento;
+	@JsonProperty("fecha")
+	private LocalDate fechaNacimiento;
 	
-	@NotBlank
 	private String fotografia;
 	
-	@NotBlank
+	@JsonProperty("actividad")
 	private String actividadMarcial;
 	
-	@NotBlank
+	@JsonProperty("seguro")
 	private String seguroMedico;
 	
-	@NotBlank
+	@JsonProperty("grado")
 	private String gradoActividadMarcial;
 	
-	@NotBlank
+	@JsonProperty("certificado")
 	private String certificadoMedico;
 	
-	@NotBlank
+	@JsonProperty("carta")
 	private String cartaResponsiva;
-	
-	private List<ExamenDTO> examenesParticipados;
 
 	public AlumnoDTO(Integer id,
 			String nombre,
 			String apellidos,
-			Date fechaNacimiento, String fotografia, String actividadMarcial,
-			String seguroMedico,  String gradoActividadMarcial, String certificadoMedico,
+			LocalDate fechaNacimiento, String fotografia, 
+			String actividadMarcial, String seguroMedico,
+			String gradoActividadMarcial, String certificadoMedico,
 			String cartaResponsiva) {
 		super();
 		this.id = id;
@@ -86,11 +77,11 @@ public class AlumnoDTO {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -142,20 +133,16 @@ public class AlumnoDTO {
 		this.cartaResponsiva = cartaResponsiva;
 	}
 
-	public List<ExamenDTO> getExamenesParticipados() {
-		return examenesParticipados;
-	}
-
-	public void setExamenesParticipados(List<ExamenDTO> examenesParticipados) {
-		this.examenesParticipados = examenesParticipados;
-	}
 
 	@Override
 	public String toString() {
-		return "AlumnoDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
-				+ fechaNacimiento + ", fotografia=" + fotografia + ", actividadMarcial=" + actividadMarcial
-				+ ", seguroMedico=" + seguroMedico + ", gradoActividadMarcial=" + gradoActividadMarcial
-				+ ", certificadoMedico=" + certificadoMedico + ", cartaResponsiva=" + cartaResponsiva + "]";
+		return "AlumnoDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" +
+				apellidos + ", fechaNacimiento=" + fechaNacimiento + 
+				", fotografia=" + fotografia + ", actividadMarcial=" + 
+				actividadMarcial + ", seguroMedico=" + seguroMedico + 
+				", gradoActividadMarcial=" + gradoActividadMarcial + 
+				", certificadoMedico=" + certificadoMedico + 
+				", cartaResponsiva=" + cartaResponsiva + "]";
 	}
 	
 }

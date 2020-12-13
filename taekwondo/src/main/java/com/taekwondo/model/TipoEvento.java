@@ -1,12 +1,9 @@
 package com.taekwondo.model;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,8 +19,6 @@ public class TipoEvento {
 	@Size(min=2, message="La descripcion del tipo de evento debe tener al menos 4 letras")
 	private String descripcion;
 	
-	@OneToMany(mappedBy="tipoEvento")
-    private Set<Evento> eventos;
 	
 	public TipoEvento() {
 		
