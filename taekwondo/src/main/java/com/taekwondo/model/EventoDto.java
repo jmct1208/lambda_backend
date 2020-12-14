@@ -24,6 +24,9 @@ public class EventoDto {
 		
 	@JsonProperty("enlace_facebook")
 	private String enlaceFacebook;
+	
+	@JsonProperty("tipo_evento")
+	private TipoEvento tipoEvento;
 
 	public EventoDto(Integer id, String nombre,
 			String descripcion,
@@ -93,6 +96,14 @@ public class EventoDto {
 
 	public void setEnlaceFacebook(String enlaceFacebook) {
 		this.enlaceFacebook = enlaceFacebook;
+	}
+	
+	public TipoEvento getTipoEvento() {
+		return tipoEvento;
+	}
+
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
 	}
 
 	@Override

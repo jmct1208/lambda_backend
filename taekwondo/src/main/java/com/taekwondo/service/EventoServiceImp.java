@@ -32,9 +32,10 @@ public class EventoServiceImp implements EventoService{
 	}
 
 	@Override
-	public void updateEvento(Evento evento) {
+	@Transactional
+	public void updateEvento(Evento evento, int idTipoEvento) {
+		evento.setTipoEvento(tERep.getOne(idTipoEvento));
 		repoEvento.save(evento);
-		
 	}
 
 	@Override
@@ -44,17 +45,14 @@ public class EventoServiceImp implements EventoService{
 	}
 
 	@Override
-	public EventoDto getEventoDto(int id) {
-		return this.repoEvento.findById(id);
-	}
-
-	@Override
 	public List<EventoDto> getEventosAlumno(int id) {
 		return this.repoEvento.findByEventoId(id);
 	}
 
 	@Override
-	public void createEvento(Evento evento) {
+	@Transactional
+	public void createEvento(Evento evento, int idTipoEvento) {
+		evento.setTipoEvento(tERep.getOne(idTipoEvento));
 		this.repoEvento.save(evento);
 	}
 
@@ -70,6 +68,7 @@ public class EventoServiceImp implements EventoService{
 	}
 
 	@Override
+	@Transactional
 	public void addAlumno(int idEvento, int idAlumno) {
 		Evento evento = this.repoEvento.getOne(idEvento);
 		Alumno alumno = this.aRep.getOne(idAlumno);
@@ -80,23 +79,9 @@ public class EventoServiceImp implements EventoService{
 	}
 
 	@Override
+	@Transactional
 	public TipoEvento getTipoEvento(int id) {
 		Evento evento = this.repoEvento.getOne(id);
 		return evento.getTipoEvento();
 	}
-
-	@Override
-	@Transactional
-	public void addTipoEvento(int idEvento, int idTipoEvento) {
-		Evento evento = this.repoEvento.getOne(idEvento);
-		TipoEvento tipoEvento = this.tERep.getOne(idTipoEvento);
-		evento.setTipoEvento(tipoEvento);
-	}
-
-	@Override
-	public void deleteTipoEvento(int idEvento) {
-		Evento evento = this.repoEvento.getOne(idEvento);
-		evento.setTipoEvento(null);
-	}
-
 }
