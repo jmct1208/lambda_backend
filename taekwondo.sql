@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `taekwondo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `taekwondo`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: taekwondo
@@ -74,7 +72,6 @@ CREATE TABLE `alumno_has_evento` (
 
 LOCK TABLES `alumno_has_evento` WRITE;
 /*!40000 ALTER TABLE `alumno_has_evento` DISABLE KEYS */;
-INSERT INTO `alumno_has_evento` VALUES (3,1);
 /*!40000 ALTER TABLE `alumno_has_evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +99,7 @@ CREATE TABLE `alumno_has_examen` (
 
 LOCK TABLES `alumno_has_examen` WRITE;
 /*!40000 ALTER TABLE `alumno_has_examen` DISABLE KEYS */;
-INSERT INTO `alumno_has_examen` VALUES (5,1),(10,2);
+INSERT INTO `alumno_has_examen` VALUES (3,1),(5,1),(10,1),(10,2);
 /*!40000 ALTER TABLE `alumno_has_examen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +176,7 @@ CREATE TABLE `tipo_evento` (
   `nombre` varchar(45) NOT NULL,
   `descripcion` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +185,7 @@ CREATE TABLE `tipo_evento` (
 
 LOCK TABLES `tipo_evento` WRITE;
 /*!40000 ALTER TABLE `tipo_evento` DISABLE KEYS */;
-INSERT INTO `tipo_evento` VALUES (1,'Cardio','A ejercitar ese corazón, mi amoooor');
+INSERT INTO `tipo_evento` VALUES (1,'Cardio','A ejercitar ese corazón, mi amoooor'),(2,'Recaudación de fondos anual','conseguiremos mucho, mucho dinero');
 /*!40000 ALTER TABLE `tipo_evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,10 +199,10 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre_usuario` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` text NOT NULL,
   `tipo_usuario` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +211,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'el root','abc123',1),(2,'topo','soyeltopo',1),(3,'Luna Gil','esosijamas',0),(4,'monicacorazon	','browncowstunning',0),(5,'espaldina','itsmevalentina',0),(10,'rutankamon','hellohellohellow',0);
+INSERT INTO `usuario` VALUES (1,'el root','abc123',1),(2,'topo','soyeltopo',1),(3,'Luna Gil','esosijamas',0),(4,'monicacorazon	','browncowstunning',0),(5,'espaldina','itsmevalentina',0),(10,'rutankamon','hellohellohellow',0),(11,'manuel','$2a$10$d8IYzW7sTs4aaSPZbRaMhOwLof/HQpjqvI.RmmsqLZgUAgbJvS/5S',1);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -227,4 +224,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-13 19:34:41
+-- Dump completed on 2020-12-14  9:46:42
