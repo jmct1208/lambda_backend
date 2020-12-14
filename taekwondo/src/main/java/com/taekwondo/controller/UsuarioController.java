@@ -46,7 +46,6 @@ public class UsuarioController {
 	@PostMapping("/usuarios")
 	public ResponseEntity<Object> createUsuario(@Valid @RequestBody Usuario usuario) { 
 		HashMap<String, String> response = new HashMap<String, String>();
-		
 		this.uSrv.createUsuario(usuario);
 		response.put("status", "success");
 		response.put("message", "Usuario creado exitosamente");

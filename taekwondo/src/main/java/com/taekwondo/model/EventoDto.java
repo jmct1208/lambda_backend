@@ -14,19 +14,17 @@ public class EventoDto {
 	
 	private String descripcion;
 	
-	@JsonProperty("fecha_inicio")
+	@JsonProperty("fecha")
 	private LocalDate fechaInicio;
 	
-	@JsonProperty("fecha_fin")
+	@JsonProperty("fechaf")
 	private LocalDate fechaFin;
 	
 	private Double costo;
 		
-	@JsonProperty("enlace_facebook")
+	@JsonProperty("enlace")
 	private String enlaceFacebook;
 	
-	@JsonProperty("tipo_evento")
-	private TipoEvento tipoEvento;
 
 	public EventoDto(Integer id, String nombre,
 			String descripcion,
@@ -98,13 +96,6 @@ public class EventoDto {
 		this.enlaceFacebook = enlaceFacebook;
 	}
 	
-	public TipoEvento getTipoEvento() {
-		return tipoEvento;
-	}
-
-	public void setTipoEvento(TipoEvento tipoEvento) {
-		this.tipoEvento = tipoEvento;
-	}
 
 	@Override
 	public String toString() {
