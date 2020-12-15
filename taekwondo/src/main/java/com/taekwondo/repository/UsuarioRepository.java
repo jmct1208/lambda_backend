@@ -8,5 +8,5 @@ import com.taekwondo.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	
-	
+	Usuario findByNombre(String nombre);
 }

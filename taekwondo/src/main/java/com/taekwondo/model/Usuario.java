@@ -16,13 +16,14 @@ public class Usuario {
 	private Integer id;
 	
 	@Column(name = "nombre_usuario")
+	@JsonProperty("nombre")
 	String nombre;
 	
 	
 	String password;
 	
-	@JsonProperty("tipo")
 	@Column(name = "tipo_usuario")
+	@JsonProperty("tipo_usuario")
 	Boolean tipoUsuario;
 	
 	public Usuario() {
@@ -68,6 +69,14 @@ public class Usuario {
 
 	public void setTipoUsuario(Boolean tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
+	}
+	
+	public String getTipoUsuarioString() {
+		if(this.getTipoUsuario()) {
+			return "ADMINISTRADOR";
+		} else {
+			return "ALUMNO";
+		}
 	}
 
 	@Override

@@ -48,6 +48,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return this.aRep.findByExamenId(id) ;
 	}
 	
+	@Override
 	public List<AlumnoDTO> getAlumnosNotExamen(int id) {
 		return this.aRep.findByExamenNotId(id);
 	}

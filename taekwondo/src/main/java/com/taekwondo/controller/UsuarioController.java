@@ -28,26 +28,31 @@ public class UsuarioController {
 	@Autowired
 	private AlumnoService aSrv;
 	
-	@GetMapping("/usuario/{id}")
-	public ResponseEntity<Object> getUsuario(@PathVariable int id) {
-		return new ResponseEntity<Object>(this.uSrv.getUsuario(id), HttpStatus.OK);
-	}
-	
 	@GetMapping("/usuarios")
 	public ResponseEntity<Object> getUsuarios(){
-		return new ResponseEntity<Object>(this.uSrv.getUsuarios(), HttpStatus.OK);
+		return new ResponseEntity<Object>(this.uSrv.getUsuarios(), 
+				HttpStatus.OK);
 	}
 	
 	@GetMapping("usuarios/{id}/alumno")
 	public ResponseEntity<Object> getAlumnoUsuario(@PathVariable int id) {
-		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(id), HttpStatus.OK);
+		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(id), 
+				HttpStatus.OK);
 	}
 	
 	@PostMapping("/usuarios")
-	public ResponseEntity<Object> createUsuario(@Valid @RequestBody Usuario usuario) { 
-		HashMap<String, String> response = new HashMap<String, String>();
+	public ResponseEntity<Object> createUsuario(
+			@Valid @RequestBody Usuario usuario) { 
+		Usuario usuarioExistente = this.uSrv.getUsuario(usuario.getNombre());
+		HashMap<String, Object> response = new HashMap<String, Object>();
+		if(usuarioExistente != null) {
+			response.put("status", HttpStatus.PRECONDITION_FAILED);
+			response.put("mensaje", "Usuario ya existe");
+			return new ResponseEntity<Object>(response, 
+					HttpStatus.PRECONDITION_FAILED);
+		}
 		this.uSrv.createUsuario(usuario);
-		response.put("status", "success");
+		response.put("status", HttpStatus.OK);
 		response.put("message", "Usuario creado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}

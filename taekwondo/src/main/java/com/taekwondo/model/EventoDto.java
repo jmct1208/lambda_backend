@@ -96,7 +96,6 @@ public class EventoDto {
 		this.enlaceFacebook = enlaceFacebook;
 	}
 	
-
 	@Override
 	public String toString() {
 		return "EventoDto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaInicio="
