@@ -7,6 +7,10 @@ import com.taekwondo.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
+       
+	Usuario findByid(int id);
 	
+	//@Query(value = "SELECT u FROM USUARIO u LEFT JOIN FETCH u.tipoUsuario WHERE u.id = :id AND u.nombre=nombre")
+	Usuario findByNombre(String nombre);
 	
 }
