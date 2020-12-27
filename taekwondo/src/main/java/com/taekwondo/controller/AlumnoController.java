@@ -38,6 +38,12 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(alumno, HttpStatus.OK);
 	}
 	
+	@GetMapping("/alumnos/usuarios")
+	public ResponseEntity<Object> getAlumnonosno() {
+		return new ResponseEntity<Object>(this.aSrv.alumnosSinUsuario(), 
+				HttpStatus.OK);
+	}
+	
 	@GetMapping("/alumnos")
 	public ResponseEntity<Object> getAlumnos() {
 		return new ResponseEntity<Object>(this.aSrv.getAlumnos(), 
@@ -58,7 +64,7 @@ public class AlumnoController {
 				HttpStatus.OK);
 	}
 	
-	@PostMapping("/usuarios/{id_usuario}/alumno")
+	@PostMapping("/alumnos/{id_usuario}/usuario")
 	public ResponseEntity<Object> createAlumno(@Valid @RequestBody 
 			Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
 		HashMap<String, String> response = new HashMap<String, String>();
@@ -91,5 +97,6 @@ public class AlumnoController {
 		response.put("message", "Alumno eliminado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	
 
 }

@@ -83,6 +83,11 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	public void deleteUsuario(int id) {
 		this.uRep.deleteById(id);
 	}
+	
+	@Override
+	public Usuario obtenerPorNombre(String nombre) {
+		return this.uRep.findByNombre(nombre);
+	}
 
 
 	@Override
@@ -116,5 +121,6 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	private UserDetails buildUserForAuthentication(Usuario usuario, List<GrantedAuthority> authorities) {
 		return new org.springframework.security.core.userdetails.User(usuario.getNombre(), usuario.getPassword(), authorities);
 	}
+
 
 }

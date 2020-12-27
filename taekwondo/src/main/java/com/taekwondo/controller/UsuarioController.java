@@ -67,4 +67,12 @@ public class UsuarioController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
+	@GetMapping("/usuario/pornombre/{nombre}")
+	public ResponseEntity<Object> obtenerPorNombre(@PathVariable("nombre")String nombre) {
+		return new ResponseEntity<Object>(this.uSrv.obtenerPorNombre(nombre), HttpStatus.OK);
+		
+	}
+
+	
+	
 }

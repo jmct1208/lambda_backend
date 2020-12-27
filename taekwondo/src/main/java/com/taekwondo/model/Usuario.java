@@ -1,17 +1,17 @@
 package com.taekwondo.model;
 
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
+import javax.persistence.Column;
+
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,8 +22,8 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "nombre_usuario")
-	String nombre;
+	@Column(name="nombre_usuario")
+	private String nombre;
 	
 	@JsonProperty("tipo")
 	@ManyToOne(optional=true,fetch = FetchType.EAGER )

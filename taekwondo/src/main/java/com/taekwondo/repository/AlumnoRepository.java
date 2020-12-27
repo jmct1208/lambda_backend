@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
+import com.taekwondo.model.Usuario;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
@@ -56,4 +57,27 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 			"SELECT a1.id FROM Alumno a1 INNER JOIN " +
 			"a1.eventosParticipados e WHERE e.id=?1)")
 	List<AlumnoDTO> findByEventoNotId(int id);
+	
+	
+	@Query("SELECT u FROM Usuario u WHERE u.id NOT IN (SELECT e.id FROM Alumno e INNER JOIN e.usuario)")
+	List<Usuario> alumnosSinUsuario();
+	//select u.id FROM Usuario u
+	//"select new com.taekwondo.model.AlumnoDTO(a.id, a.nombre,a.apellidos, a.fechaNacimiento, a.fotografia,a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial,a.certificadoMedico, a.cartaResponsiva) FROM Alumno a INNER JOIN a.usuario e"
+
+	/*@Query(value="SELECT new com.taekwondo.model.AlumnoDTO(a.id, a.nombre, " + 
+			"a.apellidos, a.fechaNacimiento, a.fotografia, " + 
+			"a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial, " + 
+			"a.certificadoMedico, a.cartaResponsiva) " +
+			"FROM Alumno a JOIN ((SELECT a1.usuario FROM Alumno a1) NOT IN (" +
+			"SELECT a1.usuario FROM Alumno a1 INNER JOIN " +
+			"Usuario e WHERE a1.usuario=e.nombre))"
+			,nativeQuery = true)**/
+
+	
+	//SELECT new com.taekwondo.model.AlumnoDTO(a.id, a.nombre,a.apellidos, a.fechaNacimiento, a.fotografia,	a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial) FROM ALUMNO a  JOIN ((SELECT p.usuario FROM ALUMNO p) NOT IN (SELECT a1.usuario FROM ALUMNO a1 INNER JOIN USUARIO e WHERE a1.usuario=e.nombre)) a2
+	////"SELECT a1.usuario FROM ALUMNO a1 INNER JOIN USUARIO e WHERE a1.usuario=e.nombre)) " +
+	//"a2
+	//	@Query(value="select new com.taekwondo.model.AlumnoDTO(a.id, a.nombre,a.apellidos, a.fechaNacimiento, a.fotografia,	a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial)  from alumno as a natural join ((select usuario from alumno) except (select usuario from alumno inner join usuario on alumno.usuario=usuario.nombre_usuario)) as e"
+
+	//select * from alumno as a natural join ((select usuario from alumno) except (select usuario from alumno inner join usuario on alumno.usuario=usuario.nombre_usuario)) as e
 }

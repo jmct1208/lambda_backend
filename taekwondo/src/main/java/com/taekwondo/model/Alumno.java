@@ -6,10 +6,12 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -20,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Alumno {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Size(min=2, message="El nombre de la persona debe tener al menos 2 letras")
@@ -56,15 +59,14 @@ public class Alumno {
 	@Column(name = "carta_responsiva")
 	private String cartaResponsiva;
 	
-	@ManyToMany(mappedBy = "alumnosParticipantesExamen")
+	@ManyToMany(mappedBy = "alumnosParticipantesExamen",fetch = FetchType.LAZY)
 	private Set<Examen> examenesParticipados;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@MapsId
-	@JoinColumn(name = "id")
+	@OneToOne(optional=true,fetch = FetchType.EAGER )
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_usuario_alumno"), name="usuario",referencedColumnName="id" ,nullable=false)
 	private Usuario usuario;
 	
-	@ManyToMany(mappedBy = "alumnosParticipantesEvento")
+	@ManyToMany(mappedBy = "alumnosParticipantesEvento",fetch = FetchType.LAZY)
 	private Set<Evento> eventosParticipados;
 	
 	public Alumno() {

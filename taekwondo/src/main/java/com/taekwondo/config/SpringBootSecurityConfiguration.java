@@ -40,8 +40,8 @@ public class SpringBootSecurityConfiguration extends WebSecurityConfigurerAdapte
 		
 		http.httpBasic().disable().csrf().disable().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests() 
-		.antMatchers("/api/autenticacion/login/**","/examenes/**", "/api/autenticacion/registro/**", "/usuario/**").permitAll()
-		.antMatchers("/alumno/**").hasAuthority("ADMINISTRADOR").anyRequest().authenticated().and().csrf()
+		.antMatchers("/api/autenticacion/login/**", "/api/autenticacion/registro/**", "/usuario/**").permitAll()
+		.antMatchers("/alumnos/**").hasAuthority("ADMINISTRADOR").anyRequest().authenticated().and().csrf()
 		.disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()).and()
 		.apply(new JwtConfigurer(jwtTokenProvider));
 		

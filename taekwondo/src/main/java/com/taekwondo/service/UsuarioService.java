@@ -14,4 +14,7 @@ public interface UsuarioService {
 	public void updateUsuario(Usuario usuario);
 	public void deleteUsuario(int id);
 	public abstract UserDetails loadUserByUsername(String email);
+	public abstract Usuario obtenerPorNombre(String nombre);
+
+
 }

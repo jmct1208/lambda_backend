@@ -1,5 +1,27 @@
-﻿
-DROP TABLE IF EXISTS "alumno";
+﻿DROP TABLE IF EXISTS "tipo_usuario";
+CREATE TABLE public.tipo_usuario
+(
+    id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    nombre_tipo_usuario varchar NOT NULL,
+    descripcion text NOT NULL,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS "usuario";
+CREATE TABLE "usuario" (
+  "id" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+  "nombre_usuario" varchar(45) NOT NULL UNIQUE,
+  "password" varchar(45) NOT NULL,
+  "tipo_usuario" integer NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT fk_usuario FOREIGN KEY (tipo_usuario)
+        REFERENCES public.tipo_usuario (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+DROP TABLE IF EXISTS "alumno" CASCADE;
 CREATE TABLE public.alumno
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -12,31 +34,17 @@ CREATE TABLE public.alumno
     seguro_medico text COLLATE pg_catalog."default" NOT NULL,
     certificado_medico text COLLATE pg_catalog."default" NOT NULL,
     carta_responsiva text COLLATE pg_catalog."default" NOT NULL,
-    usuario character varying(45) COLLATE pg_catalog."default",
+    usuario integer NOT NULL,
     CONSTRAINT pk_usuario PRIMARY KEY (id),
-    CONSTRAINT alumno_usuario_key UNIQUE (usuario)
-)
-
-DROP TABLE IF EXISTS "usuario";
-CREATE TABLE "usuario" (
-  "id" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-  "nombre_usuario" varchar(45) NOT NULL UNIQUE,
-  "password" varchar(45) NOT NULL,
-  "tipo_usuario" integer NOT NULL,
-  PRIMARY KEY ("id"),
-  CONSTRAINT fk_usuario FOREIGN KEY (tipo_usuario)
-        REFERENCES public.tipo_evento (id) MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
-  CONSTRAINT fk_usuario_alumno FOREIGN KEY (nombre_usuario)
-        REFERENCES public.alumno (usuario) MATCH SIMPLE
+    CONSTRAINT alumno_usuario_key UNIQUE (usuario),
+	CONSTRAINT fk_usuario_alumno FOREIGN KEY (usuario)
+        REFERENCES public.usuario (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
         NOT VALID
 );
 
-DROP TABLE IF EXISTS "tipo_evento";
+DROP TABLE IF EXISTS "tipo_evento" CASCADE;
 
 CREATE TABLE "tipo_evento" (
   "id" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -45,7 +53,7 @@ CREATE TABLE "tipo_evento" (
   PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "evento";
+DROP TABLE IF EXISTS "evento" CASCADE;
 
 CREATE TABLE public.evento
 (
@@ -83,15 +91,19 @@ CREATE TABLE public.alumno_has_evento
         ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS "examen" CASCADE;
 
-CREATE TABLE public.tipo_usuario
+CREATE TABLE public.examen
 (
-    id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
-    nombre_tipo_usuario varchar NOT NULL,
-    descripcion text NOT NULL,
-    PRIMARY KEY (id)
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    nombre character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    tipo character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    fecha_hora date NOT NULL,
+    costo numeric(7,2) NOT NULL,
+    enlace_facebook text COLLATE pg_catalog."default" NOT NULL,
+    solicitud_examen text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_examen PRIMARY KEY (id)
 );
-
 DROP TABLE IF EXISTS "alumno_has_examen";
 
 CREATE TABLE public.alumno_has_examen
@@ -108,20 +120,5 @@ CREATE TABLE public.alumno_has_examen
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
-
-DROP TABLE IF EXISTS "examen";
-
-CREATE TABLE public.examen
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    nombre character varying(45) COLLATE pg_catalog."default" NOT NULL,
-    tipo character varying(45) COLLATE pg_catalog."default" NOT NULL,
-    fecha_hora date NOT NULL,
-    costo numeric(7,2) NOT NULL,
-    enlace_facebook text COLLATE pg_catalog."default" NOT NULL,
-    solicitud_examen text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT pk_examen PRIMARY KEY (id)
-)
-
 
 

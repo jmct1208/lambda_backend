@@ -60,7 +60,8 @@ public class AutenticacionCtrl {
 			
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, datos.getPassword()));
 			String token = jwtTokenProvider.createToken(email, usuario.getTipoUsuario());
-			
+			System.out.println("este es el tokeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen::::"+token);
+
 			Map<Object, Object> modelo = new HashMap<>();
             modelo.put("token", token);
             
