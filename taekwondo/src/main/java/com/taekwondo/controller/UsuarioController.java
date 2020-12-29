@@ -7,19 +7,27 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taekwondo.model.Alumno;
+import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.model.Usuario;
 import com.taekwondo.service.AlumnoService;
+import com.taekwondo.service.EventoService;
+import com.taekwondo.service.ExamenService;
 import com.taekwondo.service.UsuarioService;
 
 @RestController
+@RequestMapping("/usuarios")
 public class UsuarioController {
 	
 	@Autowired
@@ -28,19 +36,68 @@ public class UsuarioController {
 	@Autowired
 	private AlumnoService aSrv;
 	
-	@GetMapping("/usuarios")
+	@Autowired
+	private ExamenService eSrv;
+	
+	@Autowired
+	private EventoService eVSrv;
+	
+	@GetMapping("")
 	public ResponseEntity<Object> getUsuarios(){
 		return new ResponseEntity<Object>(this.uSrv.getUsuarios(), 
 				HttpStatus.OK);
 	}
 	
-	@GetMapping("usuarios/{id}/alumno")
+	@GetMapping("/{id}/alumno")
 	public ResponseEntity<Object> getAlumnoUsuario(@PathVariable int id) {
 		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(id), 
 				HttpStatus.OK);
 	}
 	
-	@PostMapping("/usuarios")
+	@GetMapping("/logged_in")
+	public ResponseEntity<Object> getUsuarioLogueado() {
+		Object principal = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+		String username;
+		if (principal instanceof UserDetails) {
+			  username = ((UserDetails)principal).getUsername();
+			} else {
+			  username = principal.toString();
+			}
+		return new ResponseEntity<Object>(this.uSrv.getUsuario(username),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/logged_in/alumno")
+	public ResponseEntity<Object> getAlumnoLogueado() {
+		int idUsuario =  ((Usuario) this.getUsuarioLogueado().getBody())
+				.getId();
+		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(idUsuario),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/logged_in/alumno/examenes")
+	public ResponseEntity<Object> getExamenesAlumnoLogueado() {
+		int idAlumno = ((AlumnoDTO) this.getAlumnoLogueado().getBody()).getId();
+		return new ResponseEntity<Object>(eSrv.getExamenesAlumno(idAlumno),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/logged_in/alumno/eventos")
+	public ResponseEntity<Object> getEventosAlumnoLogueado() {
+		int idAlumno = ((AlumnoDTO) this.getAlumnoLogueado().getBody()).getId();
+		return new ResponseEntity<Object>(eVSrv.getEventosAlumno(idAlumno),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/not_alumno")
+	public ResponseEntity<Object> getUsuariosNotAlumno() {
+		return new ResponseEntity<Object>(this.uSrv.getUsuariosSinAlumno(), 
+				HttpStatus.OK);
+	}
+	
+	@PostMapping("")
 	public ResponseEntity<Object> createUsuario(
 			@Valid @RequestBody Usuario usuario) { 
 		Usuario usuarioExistente = this.uSrv.getUsuario(usuario.getNombre());
@@ -57,8 +114,19 @@ public class UsuarioController {
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/usuarios/{id}")
-	public ResponseEntity<Object> updateUsuario(@Valid @RequestBody Usuario usuario) {
+	@PostMapping("/{id_usuario}/alumno")
+	public ResponseEntity<Object> createAlumno(@Valid @RequestBody 
+			Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.aSrv.createAlumno(alumno, idUsuario);
+		response.put("status", "success");
+		response.put("message", "Alumno creado exitosamente");
+		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> updateUsuario(
+			@Valid @RequestBody Usuario usuario, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.uSrv.updateUsuario(usuario);
 		response.put("status", "success");
@@ -66,7 +134,7 @@ public class UsuarioController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/usuarios/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteUsuario(int id) {
 		this.uSrv.deleteUsuario(id);
 		HashMap<String, String> response = new HashMap<String, String>();

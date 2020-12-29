@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import com.taekwondo.model.Usuario;
 import com.taekwondo.repository.UsuarioRepository;
 
 @Service
-public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
+public class UsuarioServiceImp implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository uRep;
@@ -29,6 +28,7 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	
 	@Override
 	public Usuario getUsuario(String nombre) {
+		System.out.println(this.uRep.findByNombre(nombre));
 		return this.uRep.findByNombre(nombre);
 	}
 
@@ -69,6 +69,8 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 		}
 	}
 	
+	
+	
 	private List<GrantedAuthority> getUserAuthority(String tipoUsuario) {
 		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
 		roles.add(new SimpleGrantedAuthority(tipoUsuario));
@@ -81,5 +83,10 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 			List<GrantedAuthority> authorities) {
 		return new User(usuario.getNombre(), usuario.getPassword(), 
 				authorities);
+	}
+
+	@Override
+	public List<Usuario> getUsuariosSinAlumno() {
+		return this.uRep.findByNoAlumno();
 	}
 }

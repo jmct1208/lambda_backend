@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +22,9 @@ import com.taekwondo.config.JwtConfigurer;
 import com.taekwondo.service.UsuarioServiceImp;
 
 @Configuration
-public class SpringBootSecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+public class SpringBootSecurityConfiguration extends 
+	WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
@@ -38,15 +42,22 @@ public class SpringBootSecurityConfiguration extends WebSecurityConfigurerAdapte
 		http.httpBasic().disable().csrf().disable().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests() 
-		.antMatchers("/api/autenticacion/login/**", 
-				"/api/autenticacion/registro/**")
-		.permitAll()
-		.antMatchers("/alumnos/**", "/eventos/**", "/examenes/**")
-		.hasAuthority("ADMINISTRADOR").anyRequest().authenticated()
-		.and().csrf()
-		.disable().exceptionHandling()
-		.authenticationEntryPoint(unauthorizedEntryPoint()).and()
-		.apply(new JwtConfigurer(jwtTokenProvider));
+			.antMatchers("/api/autenticacion/login/**", 
+					"/api/autenticacion/registro/**")
+				.permitAll()
+			.antMatchers(HttpMethod.GET, "/eventos", "/examenes")
+				.access("hasAuthority('ALUMNO') or "
+						+ "hasAuthority('ADMINISTRADOR')")
+			.antMatchers("/usuarios/logged_in/**").hasAuthority("ALUMNO")
+			.antMatchers("/usuarios", "/usuarios/**", "/eventos", "/eventos/**",
+					"/examenes", "/examenes/**", "/tipos_evento",
+					"/tipos_evento/**", "/alumnos", "/alumnos/**")
+				.hasAuthority("ADMINISTRADOR")
+			.anyRequest().authenticated()
+			.and().csrf()
+			.disable().exceptionHandling()
+			.authenticationEntryPoint(unauthorizedEntryPoint()).and()
+			.apply(new JwtConfigurer(jwtTokenProvider));
 		
 		http.cors();
 	}

@@ -12,30 +12,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taekwondo.model.*;
 import com.taekwondo.service.TipoEventoService;
 
 @RestController
+@RequestMapping("/tipos_evento")
 public class TipoEventoController {
 	
 	@Autowired
 	private TipoEventoService tipoEventoService;
 	
-	@GetMapping("/tipos_evento")
+	@GetMapping("")
 	public ResponseEntity<Object> getTipoEventos(){
 		return new ResponseEntity<Object>(this.tipoEventoService.
 				getTipoEventos(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/tipos_evento/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Object> getTipoEvento(@PathVariable int id){
 		return new ResponseEntity<Object>(this.tipoEventoService.
 				getTipoEvento(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/tipos_evento")
+	@PostMapping("/")
 	public ResponseEntity<Object> createTipoEvento(@Valid @RequestBody 
 			TipoEvento tipoEvento){
 		HashMap<String, String> response = new HashMap<String, String>();
@@ -45,9 +47,9 @@ public class TipoEventoController {
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/tipos_evento/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Object> updateTipoEvento(@Valid @RequestBody
-			TipoEvento tipoEvento) {
+			TipoEvento tipoEvento, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		this.tipoEventoService.updateTipoEvento(tipoEvento);
 		response.put("status", "success");
@@ -55,7 +57,7 @@ public class TipoEventoController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/tipos_evento/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteTipoEvento(@PathVariable int id) {
 		this.tipoEventoService.deleteTipoEvento(id);
 		HashMap<String, String> response = new HashMap<String, String>();

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -31,7 +32,8 @@ public class Usuario {
 		
 	}
 
-	public Usuario(Integer id, String nombre, String password, Boolean tipoUsuario) {
+	public Usuario(Integer id, String nombre, String password, 
+			Boolean tipoUsuario) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -55,6 +57,7 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -71,6 +74,7 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 	
+	@JsonIgnore
 	public String getTipoUsuarioString() {
 		if(this.getTipoUsuario()) {
 			return "ADMINISTRADOR";
