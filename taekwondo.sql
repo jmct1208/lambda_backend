@@ -1,108 +1,151 @@
+<<<<<<< HEAD
 -- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: taekwondo
 -- ------------------------------------------------------
 -- Server version	8.0.22-0ubuntu0.20.04.3
+=======
+﻿DROP TABLE IF EXISTS "tipo_usuario";
+CREATE TABLE public.tipo_usuario
+(
+    id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+    nombre_tipo_usuario varchar NOT NULL,
+    descripcion text NOT NULL,
+    PRIMARY KEY (id)
+);
+>>>>>>> refs/heads/jose
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS "usuario";
+CREATE TABLE "usuario" (
+  "id" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+  "nombre_usuario" varchar(45) NOT NULL UNIQUE,
+  "password" varchar(45) NOT NULL,
+  "tipo_usuario" integer NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT fk_usuario FOREIGN KEY (tipo_usuario)
+        REFERENCES public.tipo_usuario (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
 
---
--- Table structure for table `alumno`
---
+DROP TABLE IF EXISTS "alumno" CASCADE;
+CREATE TABLE public.alumno
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    nombre character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    apellidos character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    fecha_nacimiento date NOT NULL,
+    fotografia text COLLATE pg_catalog."default" NOT NULL,
+    actividad_marcial character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    grado_actividad_marcial character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    seguro_medico text COLLATE pg_catalog."default" NOT NULL,
+    certificado_medico text COLLATE pg_catalog."default" NOT NULL,
+    carta_responsiva text COLLATE pg_catalog."default" NOT NULL,
+    usuario integer NOT NULL,
+    CONSTRAINT pk_usuario PRIMARY KEY (id),
+    CONSTRAINT alumno_usuario_key UNIQUE (usuario),
+	CONSTRAINT fk_usuario_alumno FOREIGN KEY (usuario)
+        REFERENCES public.usuario (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
 
-DROP TABLE IF EXISTS `alumno`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `alumno` (
-  `id` int NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `apellidos` varchar(45) NOT NULL,
-  `fecha_nacimiento` date NOT NULL,
-  `fotografia` text NOT NULL,
-  `actividad_marcial` text NOT NULL,
-  `grado_actividad_marcial` text NOT NULL,
-  `seguro_medico` text NOT NULL,
-  `certificado_medico` text NOT NULL,
-  `carta_responsiva` text NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_alumno_1` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS "tipo_evento" CASCADE;
 
---
--- Dumping data for table `alumno`
---
+CREATE TABLE "tipo_evento" (
+  "id" integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+  "nombre" varchar(45) NOT NULL,
+  "descripcion" text NOT NULL,
+  PRIMARY KEY ("id")
+);
 
-LOCK TABLES `alumno` WRITE;
-/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
-INSERT INTO `alumno` VALUES (3,'Luna Isabel','Gil','1996-08-26','Remamadita y de frente bueno','Karate','Cinta negra','343242342','Bye, envidiosas','Mentiri'),(5,'James Andrew','Leyva','1991-05-14','Perfect, beautiful','Lipsync','Tuck morado','Greedy','Myfrenchfantasy.pdf','Adios, mi amor'),(10,'Rupollo','Carlos','1800-05-14','Hello, hello, hello','Runway','Cinta negra','SuperModel','el_cert.pdf','Sashay Away');
-/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "evento" CASCADE;
 
---
--- Table structure for table `alumno_has_evento`
---
+CREATE TABLE public.evento
+(
+    costo integer NOT NULL,
+    descripcion text COLLATE pg_catalog."default" NOT NULL,
+    enlace_facebook text COLLATE pg_catalog."default" NOT NULL,
+    fecha_fin date NOT NULL,
+    fecha_inicio date NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    nombre character varying COLLATE pg_catalog."default" NOT NULL,
+    tipo_evento_id integer NOT NULL,
+    CONSTRAINT evento_pkey PRIMARY KEY (id),
+    CONSTRAINT evento_tipo_evento_id_key UNIQUE (tipo_evento_id),
+    CONSTRAINT fk_evento_1 FOREIGN KEY (tipo_evento_id)
+        REFERENCES public.tipo_evento (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
 
-DROP TABLE IF EXISTS `alumno_has_evento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `alumno_has_evento` (
-  `alumno_id` int NOT NULL,
-  `Evento_id` int NOT NULL,
-  PRIMARY KEY (`alumno_id`,`Evento_id`),
-  KEY `fk_alumno_has_Evento_Evento1_idx` (`Evento_id`),
-  KEY `fk_alumno_has_Evento_alumno1_idx` (`alumno_id`),
-  CONSTRAINT `fk_alumno_has_evento_Alumno` FOREIGN KEY (`alumno_id`) REFERENCES `alumno` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_alumno_has_Evento_Evento1` FOREIGN KEY (`Evento_id`) REFERENCES `evento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS "alumno_has_evento";
 
---
--- Dumping data for table `alumno_has_evento`
---
 
+<<<<<<< HEAD
 LOCK TABLES `alumno_has_evento` WRITE;
 /*!40000 ALTER TABLE `alumno_has_evento` DISABLE KEYS */;
 /*!40000 ALTER TABLE `alumno_has_evento` ENABLE KEYS */;
 UNLOCK TABLES;
+=======
+CREATE TABLE public.alumno_has_evento
+(
+    alumno_id integer NOT NULL,
+    evento_id integer NOT NULL,
+    CONSTRAINT "fk_alumno_has_Evento_Evento1_idx" PRIMARY KEY (alumno_id, evento_id),
+    CONSTRAINT "fk_alumno_has_Evento_Evento1" FOREIGN KEY (evento_id)
+        REFERENCES public.evento (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT "fk_alumno_has_evento_Alumno" FOREIGN KEY (alumno_id)
+        REFERENCES public.alumno (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+>>>>>>> refs/heads/jose
 
---
--- Table structure for table `alumno_has_examen`
---
+DROP TABLE IF EXISTS "examen" CASCADE;
 
-DROP TABLE IF EXISTS `alumno_has_examen`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `alumno_has_examen` (
-  `alumno_id` int NOT NULL,
-  `examen_id` int NOT NULL,
-  PRIMARY KEY (`alumno_id`,`examen_id`),
-  KEY `fk_alumno_has_examen_examen1_idx` (`examen_id`),
-  KEY `fk_alumno_has_examen_alumno_idx` (`alumno_id`),
-  CONSTRAINT `fk_alumno_has_examen_alumno` FOREIGN KEY (`alumno_id`) REFERENCES `alumno` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_alumno_has_examen_examen1` FOREIGN KEY (`examen_id`) REFERENCES `examen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE public.examen
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    nombre character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    tipo character varying(45) COLLATE pg_catalog."default" NOT NULL,
+    fecha_hora date NOT NULL,
+    costo numeric(7,2) NOT NULL,
+    enlace_facebook text COLLATE pg_catalog."default" NOT NULL,
+    solicitud_examen text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_examen PRIMARY KEY (id)
+);
+DROP TABLE IF EXISTS "alumno_has_examen";
 
---
--- Dumping data for table `alumno_has_examen`
---
+CREATE TABLE public.alumno_has_examen
+(
+    alumno_id integer NOT NULL,
+    examen_id integer NOT NULL,
+    CONSTRAINT pk_destinatario PRIMARY KEY (alumno_id, examen_id),
+    CONSTRAINT fk_alumno_has_examen_alumno FOREIGN KEY (alumno_id)
+        REFERENCES public.alumno (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_alumno_has_examen_examen1 FOREIGN KEY (examen_id)
+        REFERENCES public.examen (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
 
+<<<<<<< HEAD
 LOCK TABLES `alumno_has_examen` WRITE;
 /*!40000 ALTER TABLE `alumno_has_examen` DISABLE KEYS */;
 INSERT INTO `alumno_has_examen` VALUES (3,1),(5,1),(10,1),(10,2);
 /*!40000 ALTER TABLE `alumno_has_examen` ENABLE KEYS */;
 UNLOCK TABLES;
+=======
+>>>>>>> refs/heads/jose
 
+<<<<<<< HEAD
 --
 -- Table structure for table `evento`
 --
@@ -225,3 +268,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-12-14  9:46:42
+=======
+>>>>>>> refs/heads/jose

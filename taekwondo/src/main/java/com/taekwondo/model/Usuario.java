@@ -1,10 +1,16 @@
 package com.taekwondo.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Column;
+
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,12 +26,12 @@ public class Usuario {
 	@JsonProperty("nombre")
 	String nombre;
 	
+	@JsonProperty("tipo")
+	@ManyToOne(optional=true,fetch = FetchType.EAGER )
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_usuario"), name="tipo_usuario",referencedColumnName="id" ,nullable=false)
+	private TipoUsuario tipoUsuario;
 	
 	String password;
-	
-	@Column(name = "tipo_usuario")
-	@JsonProperty("tipo_usuario")
-	Boolean tipoUsuario;
 	
 	public Usuario() {
 		
@@ -33,7 +39,7 @@ public class Usuario {
 	}
 
 	public Usuario(Integer id, String nombre, String password, 
-			Boolean tipoUsuario) {
+			TipoUsuario tipoUsuario) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -66,21 +72,12 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public Boolean getTipoUsuario() {
+	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(Boolean tipoUsuario) {
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
-	}
-	
-	@JsonIgnore
-	public String getTipoUsuarioString() {
-		if(this.getTipoUsuario()) {
-			return "ADMINISTRADOR";
-		} else {
-			return "ALUMNO";
-		}
 	}
 
 	@Override

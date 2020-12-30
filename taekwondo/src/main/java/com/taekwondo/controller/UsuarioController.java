@@ -65,7 +65,7 @@ public class UsuarioController {
 			} else {
 			  username = principal.toString();
 			}
-		return new ResponseEntity<Object>(this.uSrv.getUsuario(username),
+		return new ResponseEntity<Object>(this.uSrv.obtenerPorNombre(username),
 				HttpStatus.OK);
 	}
 	
@@ -91,16 +91,10 @@ public class UsuarioController {
 				HttpStatus.OK);
 	}
 	
-	@GetMapping("/not_alumno")
-	public ResponseEntity<Object> getUsuariosNotAlumno() {
-		return new ResponseEntity<Object>(this.uSrv.getUsuariosSinAlumno(), 
-				HttpStatus.OK);
-	}
-	
 	@PostMapping("")
 	public ResponseEntity<Object> createUsuario(
 			@Valid @RequestBody Usuario usuario) { 
-		Usuario usuarioExistente = this.uSrv.getUsuario(usuario.getNombre());
+		Usuario usuarioExistente = this.uSrv.obtenerPorNombre(usuario.getNombre());
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		if(usuarioExistente != null) {
 			response.put("status", HttpStatus.PRECONDITION_FAILED);
@@ -142,5 +136,13 @@ public class UsuarioController {
 		response.put("message", "Usuario eliminado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	
+	@GetMapping("/usuario/pornombre/{nombre}")
+	public ResponseEntity<Object> obtenerPorNombre(@PathVariable("nombre")String nombre) {
+		return new ResponseEntity<Object>(this.uSrv.obtenerPorNombre(nombre), HttpStatus.OK);
+		
+	}
+
+	
 	
 }

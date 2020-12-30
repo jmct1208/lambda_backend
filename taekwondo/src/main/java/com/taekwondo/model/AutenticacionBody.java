@@ -1,5 +1,6 @@
 package com.taekwondo.model;
 
+
 public class AutenticacionBody {
 	
 	private String nombre;
@@ -8,7 +9,7 @@ public class AutenticacionBody {
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	public void setEmail(String nombre) {
 		this.nombre = nombre;
 	}
 	public String getPassword() {
@@ -17,4 +18,8 @@ public class AutenticacionBody {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+	
+	
 }

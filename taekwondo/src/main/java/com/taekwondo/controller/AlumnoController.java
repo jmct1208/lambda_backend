@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,12 @@ public class AlumnoController {
 		return new ResponseEntity<Object>(alumno, HttpStatus.OK);
 	}
 	
+	@GetMapping("/usuarios")
+	public ResponseEntity<Object> getAlumnonosno() {
+		return new ResponseEntity<Object>(this.aSrv.alumnosSinUsuario(), 
+				HttpStatus.OK);
+	}
+	
 	@GetMapping("")
 	public ResponseEntity<Object> getAlumnos() {
 		return new ResponseEntity<Object>(this.aSrv.getAlumnos(), 
@@ -59,6 +66,18 @@ public class AlumnoController {
 				HttpStatus.OK);
 	}
 
+	
+	@PostMapping("/alumnos/{id_usuario}/usuario")
+	public ResponseEntity<Object> createAlumno(@Valid @RequestBody 
+			Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.aSrv.createAlumno(alumno, idUsuario);
+		response.put("status", "success");
+		response.put("message", "Alumno creado exitosamente");
+		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+	}
+
+
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody 
 			Alumno alumno, @PathVariable int id) {
@@ -77,5 +96,6 @@ public class AlumnoController {
 		response.put("message", "Alumno eliminado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	
 
 }

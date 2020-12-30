@@ -48,5 +48,4 @@ public class JwtTokenFilter extends GenericFilterBean {
 			return ;
 		}
 	}
-
 }

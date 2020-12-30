@@ -50,7 +50,7 @@ public class AutenticacionController {
 			String token = 
 					this
 					.jwtTokenProvider
-					.createToken(nombre, usuario.getTipoUsuarioString());
+					.createToken(nombre, usuario.getTipoUsuario().getNombre_tipo_usuario());
 			Map<Object, Object> modelo = new HashMap<Object, Object>();
 			modelo.put("token", token);
 			return ok(modelo);

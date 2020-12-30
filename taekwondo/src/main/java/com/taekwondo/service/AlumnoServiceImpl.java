@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
+import com.taekwondo.model.Usuario;
 import com.taekwondo.repository.AlumnoRepository;
+//import com.taekwondo.repository.UsuarioRepository;
 import com.taekwondo.repository.UsuarioRepository;
 
 @Service
@@ -72,5 +74,9 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public AlumnoDTO getAlumnoDto(int id) {
 		return this.aRep.findById(id);
 	}
-
+	@Override
+	public List<Usuario> alumnosSinUsuario(){
+		return this.aRep.alumnosSinUsuario();
+	}
+    
 }

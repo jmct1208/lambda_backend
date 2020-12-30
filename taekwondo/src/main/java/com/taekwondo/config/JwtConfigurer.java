@@ -20,5 +20,4 @@ SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 		http.addFilterBefore(customFiltter, 
 				UsernamePasswordAuthenticationFilter.class);
 	}
-
 }
