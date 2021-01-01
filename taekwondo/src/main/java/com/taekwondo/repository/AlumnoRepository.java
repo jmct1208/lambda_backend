@@ -25,6 +25,14 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 			"a.certificadoMedico, a.cartaResponsiva)" + 
 			"FROM Alumno a WHERE a.id=?1")
 	AlumnoDTO findById(int id);
+	
+	
+	@Query("SELECT new com.taekwondo.model.AlumnoDTO(a.id, a.nombre, " +
+			"a.apellidos, a.fechaNacimiento, a.fotografia, " + 
+			"a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial, " +
+			"a.certificadoMedico, a.cartaResponsiva)" + 
+			"FROM Alumno a JOIN a.usuario u WHERE u.id=?1")
+	AlumnoDTO findByUsuario(int id);
 		
 	@Query("SELECT new com.taekwondo.model.AlumnoDTO(a.id, a.nombre, " + 
 			"a.apellidos, a.fechaNacimiento, a.fotografia, " + 
@@ -59,7 +67,10 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 	List<AlumnoDTO> findByEventoNotId(int id);
 	
 	
-	@Query("SELECT u FROM Usuario u WHERE u.id NOT IN (SELECT e.id FROM Alumno e INNER JOIN e.usuario)")
+	@Query("SELECT u FROM Usuario u JOIN FETCH u.tipoUsuario t_u "
+			+ "WHERE u.id NOT IN "
+			+ "(SELECT e.id FROM Alumno e INNER JOIN e.usuario)"
+			+ "AND t_u.nombre = 'ALUMNO'")
 	List<Usuario> alumnosSinUsuario();
 	//select u.id FROM Usuario u
 	//"select new com.taekwondo.model.AlumnoDTO(a.id, a.nombre,a.apellidos, a.fechaNacimiento, a.fotografia,a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial,a.certificadoMedico, a.cartaResponsiva) FROM Alumno a INNER JOIN a.usuario e"

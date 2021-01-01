@@ -62,8 +62,8 @@ public class Alumno {
 	@ManyToMany(mappedBy = "alumnosParticipantesExamen",fetch = FetchType.LAZY)
 	private Set<Examen> examenesParticipados;
 	
-	@OneToOne(optional=true,fetch = FetchType.EAGER )
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_usuario_alumno"), name="usuario",referencedColumnName="id" ,nullable=false)
+	@OneToOne
+	@JoinColumn(name="usuario")
 	private Usuario usuario;
 	
 	@ManyToMany(mappedBy = "alumnosParticipantesEvento",fetch = FetchType.LAZY)

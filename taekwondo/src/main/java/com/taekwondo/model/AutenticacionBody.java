@@ -19,7 +19,8 @@ public class AutenticacionBody {
 		this.password = password;
 	}
 	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "AutenticacionBody [nombre=" + nombre + ", password=" + password + "]";
+	}
 }

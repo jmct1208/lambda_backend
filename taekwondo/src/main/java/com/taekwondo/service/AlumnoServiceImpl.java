@@ -74,9 +74,16 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public AlumnoDTO getAlumnoDto(int id) {
 		return this.aRep.findById(id);
 	}
+	
+	
 	@Override
 	public List<Usuario> alumnosSinUsuario(){
 		return this.aRep.alumnosSinUsuario();
+	}
+
+	@Override
+	public AlumnoDTO getAlumnoDtoUsuario(int id) {
+		return this.aRep.findByUsuario(id);
 	}
     
 }

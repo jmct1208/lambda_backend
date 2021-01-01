@@ -10,6 +10,7 @@ public interface AlumnoService {
 	
 	public abstract Alumno getAlumno(int id);
 	public abstract AlumnoDTO getAlumnoDto(int id);
+	public abstract AlumnoDTO getAlumnoDtoUsuario(int id);
 	public abstract List<AlumnoDTO> getAlumnos();
 	public abstract List<AlumnoDTO> getAlumnosExamen(int id);
 	public abstract List<AlumnoDTO> getAlumnosNotExamen(int id);

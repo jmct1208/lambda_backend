@@ -11,7 +11,9 @@ import com.taekwondo.model.*;
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Integer>{
 	
-	@Query("SELECT new com.taekwondo.model.EventoDto(e.id, e.nombre, e.descripcion, e.fechaInicio, e.fechaFin, e.costo, e.enlaceFacebook) FROM Evento e")
+	@Query("SELECT new com.taekwondo.model.EventoDto(e.id, e.nombre, "
+			+ "e.descripcion, e.fechaInicio, e.fechaFin, e.costo, "
+			+ "e.enlaceFacebook) FROM Evento e")
 	List<EventoDto> findAllDto();
 	
 	@Query("SELECT new com.taekwondo.model.EventoDto(e.id, e.nombre, e.descripcion, e.fechaInicio, e.fechaFin, e.costo, e.enlaceFacebook) FROM Evento e WHERE e.id=?1")

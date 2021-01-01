@@ -44,7 +44,7 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 		return uRep.findAll();
 	}
 	@Override
-	public ResponseEntity<Object> createUsuario(Usuario usuario) {
+	public ResponseEntity<Object> createUsuario(Usuario usuario, int idRol) {
 		
 	
         Usuario usuario_existe = uRep.findByNombre(usuario.getNombre());
@@ -55,13 +55,10 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 			response.put("mensaje", "usuario ya existe");
 			return new ResponseEntity<Object>(response, HttpStatus.PRECONDITION_FAILED);
 		}
-		
-		TipoUsuario tipo=tRep.findByid(usuario.getTipoUsuario().getId());
+		TipoUsuario tipo=tRep.getOne(idRol);
 		usuario.setTipoUsuario(tipo);
-		
-		// Se cifra la contraseña del usuario antes de persistirla en la DB
-		usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
-		tRep.save(tipo);
+		String encodedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+		usuario.setPassword(encodedPassword);
 		uRep.save(usuario);		
 		HashMap<String, Object> response = new HashMap<>(); 
 		response.put("status", HttpStatus.OK);
@@ -93,10 +90,7 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 
 		// Si existe el usuario
 		if(usuario != null) {
-			System.out.println("este es el paswoooooooooooooooooooooooooooooorrrrrrrrrrrrrrrrrrrrr::::"+usuario.getTipoUsuario().getNombre_tipo_usuario());
-
-			List<GrantedAuthority> authorities = getUserAuthority(usuario.getTipoUsuario().getNombre_tipo_usuario());
-			System.out.println("este es el paswoooooooooooooooooooooooooooooorrrrrrrrrrrrrrrrrrrrr"+usuario.getNombre());
+			List<GrantedAuthority> authorities = getUserAuthority(usuario.getTipoUsuario().getNombre());
 			return buildUserForAuthentication(usuario, authorities);
 		}else {
 			throw new UsernameNotFoundException("Nombre de usuariuo no encontrado");

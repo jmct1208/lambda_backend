@@ -22,7 +22,7 @@ import com.taekwondo.config.JwtConfigurer;
 import com.taekwondo.service.UsuarioServiceImp;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
 public class SpringBootSecurityConfiguration extends 
 	WebSecurityConfigurerAdapter {
 	
@@ -42,12 +42,9 @@ public class SpringBootSecurityConfiguration extends
 		http.httpBasic().disable().csrf().disable().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests() 
-			.antMatchers("/api/autenticacion/login/**", 
-					"/api/autenticacion/registro/**")
+			.antMatchers("/api/autenticacion/**")
 				.permitAll()
-			.antMatchers(HttpMethod.GET, "/eventos", "/examenes")
-				.access("hasAuthority('ALUMNO') or "
-						+ "hasAuthority('ADMINISTRADOR')")
+			.antMatchers(HttpMethod.GET, "/eventos", "/examenes").permitAll()
 			.antMatchers("/usuarios/logged_in/**").hasAuthority("ALUMNO")
 			.antMatchers("/usuarios", "/usuarios/**", "/eventos", "/eventos/**",
 					"/examenes", "/examenes/**", "/tipos_evento",

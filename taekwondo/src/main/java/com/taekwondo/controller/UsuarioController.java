@@ -50,7 +50,7 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}/alumno")
 	public ResponseEntity<Object> getAlumnoUsuario(@PathVariable int id) {
-		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(id), 
+		return new ResponseEntity<Object>(this.aSrv.getAlumnoDtoUsuario(id), 
 				HttpStatus.OK);
 	}
 	
@@ -73,7 +73,7 @@ public class UsuarioController {
 	public ResponseEntity<Object> getAlumnoLogueado() {
 		int idUsuario =  ((Usuario) this.getUsuarioLogueado().getBody())
 				.getId();
-		return new ResponseEntity<Object>(this.aSrv.getAlumnoDto(idUsuario),
+		return new ResponseEntity<Object>(this.aSrv.getAlumnoDtoUsuario(idUsuario),
 				HttpStatus.OK);
 	}
 	
@@ -89,23 +89,6 @@ public class UsuarioController {
 		int idAlumno = ((AlumnoDTO) this.getAlumnoLogueado().getBody()).getId();
 		return new ResponseEntity<Object>(eVSrv.getEventosAlumno(idAlumno),
 				HttpStatus.OK);
-	}
-	
-	@PostMapping("")
-	public ResponseEntity<Object> createUsuario(
-			@Valid @RequestBody Usuario usuario) { 
-		Usuario usuarioExistente = this.uSrv.obtenerPorNombre(usuario.getNombre());
-		HashMap<String, Object> response = new HashMap<String, Object>();
-		if(usuarioExistente != null) {
-			response.put("status", HttpStatus.PRECONDITION_FAILED);
-			response.put("mensaje", "Usuario ya existe");
-			return new ResponseEntity<Object>(response, 
-					HttpStatus.PRECONDITION_FAILED);
-		}
-		this.uSrv.createUsuario(usuario);
-		response.put("status", HttpStatus.OK);
-		response.put("message", "Usuario creado exitosamente");
-		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/{id_usuario}/alumno")
@@ -137,12 +120,9 @@ public class UsuarioController {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
-	@GetMapping("/usuario/pornombre/{nombre}")
+	@GetMapping("/pornombre/{nombre}")
 	public ResponseEntity<Object> obtenerPorNombre(@PathVariable("nombre")String nombre) {
 		return new ResponseEntity<Object>(this.uSrv.obtenerPorNombre(nombre), HttpStatus.OK);
 		
 	}
-
-	
-	
 }
