@@ -101,11 +101,13 @@ public class UsuarioController {
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/{id_usuario}/{id_rol}")
 	public ResponseEntity<Object> updateUsuario(
-			@Valid @RequestBody Usuario usuario, @PathVariable int id) {
+			@Valid @RequestBody Usuario usuario,
+			@PathVariable("id_usuario") int idUsuario,
+			@PathVariable("id_rol") int idRol) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.uSrv.updateUsuario(usuario);
+		this.uSrv.updateUsuario(usuario, idUsuario, idRol);
 		response.put("status", "success");
 		response.put("message", "Usuario actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);

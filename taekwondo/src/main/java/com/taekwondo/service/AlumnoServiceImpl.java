@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.model.Usuario;
@@ -28,15 +27,23 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 	@Override
 	public void createAlumno(Alumno alumno, int idUsuario) {
-		alumno.setUsuario(this.uRep.getOne(idUsuario));
+		Usuario u = this.uRep.getOne(idUsuario);
+		alumno.setUsuario(u);
 		this.aRep.save(alumno);
-		
 	}                                                                          
 
 	@Override
-	public void updateAlumno(Alumno alumno) {
-		this.aRep.save(alumno);
-		
+	public void updateAlumno(Alumno alumno, int id) {
+		Alumno alumnoExistente = this.aRep.getOne(id);
+		alumnoExistente.setActividadMarcial(alumno.getActividadMarcial());
+		alumnoExistente.setApellidos(alumno.getApellidos());
+		alumnoExistente.setCartaResponsiva(alumno.getCartaResponsiva());
+		alumnoExistente.setCertificadoMedico(alumno.getCertificadoMedico());
+		alumnoExistente.setFechaNacimiento(alumno.getFechaNacimiento());
+		alumnoExistente.setFotografia(alumno.getFotografia());
+		alumnoExistente.setGradoActividadMarcial(alumno.getGradoActividadMarcial());
+		alumnoExistente.setNombre(alumno.getNombre());
+		alumnoExistente.setSeguroMedico(alumno.getSeguroMedico());
 	}
 
 	@Override
@@ -64,17 +71,11 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public List<AlumnoDTO> getAlumnosNotEvento(int id) {
 		return this.aRep.findByEventoNotId(id);
 	}
-	
-	@Override
-	public Alumno getAlumno(int id) {
-		return this.aRep.getOne(id);
-	}
 
 	@Override
 	public AlumnoDTO getAlumnoDto(int id) {
-		return this.aRep.findById(id);
+		return this.aRep.findByIdDto(id);
 	}
-	
 	
 	@Override
 	public List<Usuario> alumnosSinUsuario(){

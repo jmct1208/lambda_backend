@@ -1,6 +1,5 @@
 package com.taekwondo.model;
 import javax.persistence.Column;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

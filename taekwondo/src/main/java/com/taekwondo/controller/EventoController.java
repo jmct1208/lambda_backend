@@ -35,12 +35,6 @@ public class EventoController {
 				HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}/tipo_evento")
-	public ResponseEntity<Object> getTipoEvento(@PathVariable int id) {
-		return new ResponseEntity<Object>(this.eventoService.getTipoEvento(id),
-				HttpStatus.OK);
-	}
-	
 	@GetMapping("/{id_evento}/alumnos")
 	public ResponseEntity<Object> getAlumnosEvento(@PathVariable("id_evento") 
 			int idEvento) {
@@ -71,7 +65,7 @@ public class EventoController {
 			Evento evento, @PathVariable("id_evento") int idEvento,
 			@PathVariable("id_tipo_evento") int idTipoEvento) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.eventoService.updateEvento(evento, idTipoEvento);
+		this.eventoService.updateEvento(evento, idEvento, idTipoEvento);
 		response.put("status", "success");
 		response.put("message", "Evento actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.taekwondo.model.TipoEvento;
 import com.taekwondo.repository.TipoEventoRepository;
@@ -29,9 +30,11 @@ public class TipoEventoServiceImp implements TipoEventoService{
 	}
 
 	@Override
-	public void updateTipoEvento(TipoEvento tipoEvento) {
-		repoTipoEvento.save(tipoEvento);
-		
+	@Transactional
+	public void updateTipoEvento(TipoEvento tipoEvento, int id) {
+		TipoEvento tEvento = this.repoTipoEvento.getOne(id);
+		tEvento.setDescripcion(tipoEvento.getDescripcion());
+		tEvento.setNombre(tipoEvento.getNombre());
 	}
 
 	@Override

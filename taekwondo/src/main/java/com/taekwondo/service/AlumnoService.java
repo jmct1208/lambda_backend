@@ -8,7 +8,6 @@ import com.taekwondo.model.Usuario;
 
 public interface AlumnoService {
 	
-	public abstract Alumno getAlumno(int id);
 	public abstract AlumnoDTO getAlumnoDto(int id);
 	public abstract AlumnoDTO getAlumnoDtoUsuario(int id);
 	public abstract List<AlumnoDTO> getAlumnos();
@@ -18,6 +17,6 @@ public interface AlumnoService {
 	public abstract List<AlumnoDTO> getAlumnosNotEvento(int id);
 	public abstract List<Usuario> alumnosSinUsuario();
 	public void createAlumno(Alumno alumno, int idUsuario);
-	public void updateAlumno(Alumno alumno);
+	public void updateAlumno(Alumno alumno, int idAlumno);
 	public void deleteAlumno(int id);
 }

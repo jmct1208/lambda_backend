@@ -70,7 +70,7 @@ public class ExamenController {
 	public ResponseEntity<Object> updateExamen(@Valid @RequestBody 
 			Examen examen, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.eSrv.updateExamen(examen);
+		this.eSrv.updateExamen(examen, id);
 		response.put("status", "success");
 		response.put("message", "Examen actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);

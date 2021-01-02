@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class Evento {
 	@JsonProperty("enlace")
 	private String enlaceFacebook;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tipo_evento_id")
 	private TipoEvento tipoEvento;
 	
@@ -150,6 +151,13 @@ public class Evento {
 
 	public void setAlumnosParticipantesEvento(Set<Alumno> alumnosParticipantesEvento) {
 		this.alumnosParticipantesEvento = alumnosParticipantesEvento;
+	}
+
+	@Override
+	public String toString() {
+		return "Evento [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaInicio="
+				+ fechaInicio + ", fechaFin=" + fechaFin + ", costo=" + costo + ", enlaceFacebook=" + enlaceFacebook
+				+ ", tipoEvento=" + tipoEvento + "]";
 	}
 	
 	

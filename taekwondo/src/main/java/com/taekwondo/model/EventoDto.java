@@ -25,11 +25,11 @@ public class EventoDto {
 	@JsonProperty("enlace")
 	private String enlaceFacebook;
 	
+	@JsonProperty("tipo")
+	private TipoEvento tipoEvento;
 
-	public EventoDto(Integer id, String nombre,
-			String descripcion,
-			LocalDate fechaInicio, LocalDate fechaFin, Double costo,
-			String enlaceFacebook) {
+	public EventoDto(Integer id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin,
+			Double costo, String enlaceFacebook) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -38,6 +38,19 @@ public class EventoDto {
 		this.fechaFin = fechaFin;
 		this.costo = costo;
 		this.enlaceFacebook = enlaceFacebook;
+	}
+	
+	public EventoDto(Integer id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin,
+			Double costo, String enlaceFacebook, Integer idTipo, String nombreTipo, String descripcionTipo) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+		this.costo = costo;
+		this.enlaceFacebook = enlaceFacebook;
+		this.tipoEvento = new TipoEvento(idTipo, nombreTipo, descripcionTipo);
 	}
 
 	public Integer getId() {

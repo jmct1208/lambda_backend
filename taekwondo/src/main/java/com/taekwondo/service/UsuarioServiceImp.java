@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.taekwondo.model.TipoUsuario;
 import com.taekwondo.model.Usuario;
@@ -45,8 +46,6 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	}
 	@Override
 	public ResponseEntity<Object> createUsuario(Usuario usuario, int idRol) {
-		
-	
         Usuario usuario_existe = uRep.findByNombre(usuario.getNombre());
 		
 		if(usuario_existe != null) {
@@ -68,9 +67,13 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	}
 
 	@Override
-	public void updateUsuario(Usuario usuario) {
-		this.uRep.save(usuario);
-
+	@Transactional
+	public void updateUsuario(Usuario usuario, int idUsuario, int idRol) {
+		Usuario usuarioExistente = uRep.getOne(idUsuario);
+		TipoUsuario tipo = tRep.getOne(idRol);
+		usuarioExistente.setNombre(usuario.getNombre());
+		usuarioExistente.setPassword(usuario.getPassword());
+		usuarioExistente.setTipoUsuario(tipo);
 	}
 
 	@Override

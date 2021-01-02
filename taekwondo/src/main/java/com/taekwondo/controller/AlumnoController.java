@@ -67,7 +67,7 @@ public class AlumnoController {
 	}
 
 	
-	@PostMapping("/alumnos/{id_usuario}/usuario")
+	@PostMapping("/{id_usuario}/usuario")
 	public ResponseEntity<Object> createAlumno(@Valid @RequestBody 
 			Alumno alumno, @PathVariable("id_usuario") int idUsuario) {
 		HashMap<String, String> response = new HashMap<String, String>();
@@ -82,7 +82,7 @@ public class AlumnoController {
 	public ResponseEntity<Object> updateAlumno(@Valid @RequestBody 
 			Alumno alumno, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.aSrv.updateAlumno(alumno);
+		this.aSrv.updateAlumno(alumno, id);
 		response.put("status", "success");
 		response.put("message", "Alumno actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);

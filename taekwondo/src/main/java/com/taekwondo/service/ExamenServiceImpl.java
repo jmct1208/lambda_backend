@@ -1,12 +1,14 @@
 package com.taekwondo.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.taekwondo.model.Alumno;
+import com.taekwondo.model.Evento;
 import com.taekwondo.model.Examen;
 import com.taekwondo.model.ExamenDTO;
 import com.taekwondo.repository.AlumnoRepository;
@@ -32,30 +34,34 @@ public class ExamenServiceImpl implements ExamenService{
 	}
 
 	@Override
-	public void updateExamen(Examen examen) {
-		this.eRep.save(examen);
+	public void updateExamen(Examen examen, int id) {
+		Examen examenExistente = this.eRep.getOne(id);
+		examenExistente.setCosto(examen.getCosto());
+		examenExistente.setEnlaceFacebook(examen.getEnlaceFacebook());
+		examenExistente.setFechaHora(examen.getFechaHora());
+		examenExistente.setNombre(examen.getNombre());
+		examenExistente.setSolicitudExamen(examen.getSolicitudExamen());
+		examenExistente.setTipo(examen.getTipo());
 	}
 
 	@Override
 	@Transactional
 	public void addAlumno(int idExamen, int idAlumno) {
-		Examen examen = this.eRep.getOne(idExamen);
-		Alumno alumno = this.aRep.getOne(idAlumno);
+		Examen examen = this.eRep.findByIdWithAlumnos(idExamen);
+		Alumno alumno = this.aRep.findByIdWithExamenes(idAlumno);
+		System.out.println(examen);
+		System.out.println(examen.getAlumnosParticipantes());
 		examen.getAlumnosParticipantes().add(alumno);
 		alumno.getExamenesParticipados().add(examen);
-		this.eRep.save(examen);
-		this.aRep.save(alumno);
 	}
 
 	@Override
 	@Transactional
 	public void deleteAlumno(int idExamen, int idAlumno) {
-		Examen examen = this.eRep.getOne(idExamen);
-		Alumno alumno = this.aRep.getOne(idAlumno);
+		Examen examen = this.eRep.findByIdWithAlumnos(idExamen);
+		Alumno alumno = this.aRep.findByIdWithEventos(idAlumno);
 		examen.getAlumnosParticipantes().remove(alumno);
 		alumno.getExamenesParticipados().remove(examen);
-		this.eRep.save(examen);
-		this.aRep.save(alumno);
 	}
 
 	@Override
@@ -70,7 +76,7 @@ public class ExamenServiceImpl implements ExamenService{
 
 	@Override
 	public ExamenDTO getExamenDto(int id) {
-		return this.eRep.findById(id);
+		return this.eRep.findByIdDto(id);
 	}
 
 }

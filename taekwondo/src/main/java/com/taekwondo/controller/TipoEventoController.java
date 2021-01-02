@@ -37,7 +37,7 @@ public class TipoEventoController {
 				getTipoEvento(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/")
+	@PostMapping("")
 	public ResponseEntity<Object> createTipoEvento(@Valid @RequestBody 
 			TipoEvento tipoEvento){
 		HashMap<String, String> response = new HashMap<String, String>();
@@ -51,7 +51,7 @@ public class TipoEventoController {
 	public ResponseEntity<Object> updateTipoEvento(@Valid @RequestBody
 			TipoEvento tipoEvento, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.tipoEventoService.updateTipoEvento(tipoEvento);
+		this.tipoEventoService.updateTipoEvento(tipoEvento, id);
 		response.put("status", "success");
 		response.put("message", "Tipo de evento actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);

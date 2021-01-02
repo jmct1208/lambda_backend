@@ -16,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,9 +48,6 @@ public class AutenticacionCtrl {
 	
 	@Autowired
 	TipoUsuarioImpl tUSrv;
-	
-	@Autowired
-	private PasswordEncoder bCryptPasswordEncoder;
 	
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/login")
