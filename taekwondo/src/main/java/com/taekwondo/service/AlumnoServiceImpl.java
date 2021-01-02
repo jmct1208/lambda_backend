@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
 import com.taekwondo.model.Usuario;
@@ -33,6 +35,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 	}                                                                          
 
 	@Override
+	@Transactional
 	public void updateAlumno(Alumno alumno, int id) {
 		Alumno alumnoExistente = this.aRep.getOne(id);
 		alumnoExistente.setActividadMarcial(alumno.getActividadMarcial());

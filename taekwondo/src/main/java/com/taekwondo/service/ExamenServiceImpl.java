@@ -34,6 +34,7 @@ public class ExamenServiceImpl implements ExamenService{
 	}
 
 	@Override
+	@Transactional
 	public void updateExamen(Examen examen, int id) {
 		Examen examenExistente = this.eRep.getOne(id);
 		examenExistente.setCosto(examen.getCosto());

@@ -33,6 +33,7 @@ public class EventoServiceImp implements EventoService{
 	}
 
 	@Override
+	@Transactional
 	public void updateEvento(Evento evento, int idEvento, int idTipoEvento) {
 		Evento eventoExistente = this.repoEvento.getOne(idEvento);
 		eventoExistente.setCosto(evento.getCosto());
