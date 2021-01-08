@@ -52,16 +52,18 @@ public class AutenticacionCtrl {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody AutenticacionBody datos) {
-		String nombre;
 		try {
-			nombre = datos.getNombre();
-			UsernamePasswordAuthenticationToken authT = new UsernamePasswordAuthenticationToken(nombre, datos.getPassword());
+			UsernamePasswordAuthenticationToken authT = 
+					new UsernamePasswordAuthenticationToken(
+							datos.getNombre(), 
+							datos.getPassword());
 			Authentication auth = authenticationManager.authenticate(authT);
 			List<?> rolesL = (List) auth.getAuthorities();
-			String tipo_usuario = ((GrantedAuthority) rolesL.get(0)).getAuthority();
+			String tipo_usuario = 
+					((GrantedAuthority) rolesL.get(0)).getAuthority();
 			System.out.println(tipo_usuario);
-			String token = jwtTokenProvider.createToken(auth.getName(), tipo_usuario);
-			System.out.println("este es el tokeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen::::"+token);
+			String token = jwtTokenProvider.createToken(auth.getName(), 
+					tipo_usuario);
 			Map<Object, Object> modelo = new HashMap<>();
             modelo.put("token", token);   
 			return ok(modelo);
@@ -73,19 +75,18 @@ public class AutenticacionCtrl {
 		}		
 	}
 	
-	@GetMapping("/tipos_usuario")
-	public ResponseEntity<Object> getRoles() {
-		return new ResponseEntity<Object>(this.tUSrv.getTiposUsuario(), 
-				HttpStatus.OK);
-	}
-	
-	
     @SuppressWarnings("rawtypes")
     @PostMapping("/registro/{id}")
     public ResponseEntity register(@Valid @RequestBody Usuario user, 
     		@PathVariable int id) {
     	System.out.println(user);
         return usuarios.createUsuario(user, id);
+    }
+    
+    @GetMapping("/registro/tipos_usuario")
+    public ResponseEntity<Object> getTiposUsuario() {
+    	return new ResponseEntity<Object>(
+    			this.tUSrv.getTiposUsuario(), HttpStatus.OK);
     }
 
 }

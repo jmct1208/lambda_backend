@@ -46,9 +46,9 @@ public class AlumnoServiceImpl implements AlumnoService {
 		alumnoExistente.setFotografia(alumno.getFotografia());
 		alumnoExistente.setGradoActividadMarcial(alumno.getGradoActividadMarcial());
 		alumnoExistente.setNombre(alumno.getNombre());
-		alumnoExistente.setSeguroMedico(alumno.getSeguroMedico());
+		alumnoExistente.setSeguroMedico(alumno.getSeguroMedico());	
 	}
-
+	
 	@Override
 	public void deleteAlumno(int id) {
 		this.aRep.deleteById(id);
@@ -57,11 +57,13 @@ public class AlumnoServiceImpl implements AlumnoService {
 	
 	@Override
 	public List<AlumnoDTO> getAlumnosExamen(int id) {
-		return this.aRep.findByExamenId(id) ;
+		return this.aRep.findByExamenId(id) ;	
+
 	}
 	
 	@Override
-	public List<AlumnoDTO> getAlumnosNotExamen(int id) {
+	public List<AlumnoDTO> getAlumnosNotExamen(int id) {	
+
 		return this.aRep.findByExamenNotId(id);
 	}
 
@@ -79,15 +81,16 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public AlumnoDTO getAlumnoDto(int id) {
 		return this.aRep.findByIdDto(id);
 	}
-	
+
 	@Override
-	public List<Usuario> alumnosSinUsuario(){
-		return this.aRep.alumnosSinUsuario();
+	public AlumnoDTO getAlumnoDtoByUsuario(int id) {
+		return this.aRep.findByUsuarioId(id);
 	}
 
 	@Override
-	public AlumnoDTO getAlumnoDtoUsuario(int id) {
-		return this.aRep.findByUsuario(id);
-	}
-    
+	@Transactional
+	public void updateUsuario(int idAlumno, int idUsuario) {
+		Alumno alumno = aRep.getOne(idAlumno);
+		alumno.setUsuario(uRep.getOne(idUsuario));
+	}    
 }

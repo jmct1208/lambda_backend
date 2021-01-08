@@ -8,13 +8,14 @@ import org.springframework.http.ResponseEntity;
 import com.taekwondo.model.Usuario;
 
 public interface UsuarioService {
-	public abstract Usuario getUsuario(int id);
+	public abstract Usuario obtenerPorLlave(Integer id, String nombre);
 	public abstract List<Usuario> getUsuarios();
-	public ResponseEntity<Object> createUsuario(Usuario usuario, int idRol);
-	public void updateUsuario(Usuario usuario, int idUsuario, int idRol);
+	public abstract List<Usuario> getUsuariosSinAlumno();
+	public ResponseEntity<Object> createUsuario(Usuario usuario, int idTipo);
+	public void updateUsuario(Usuario usuario, int id);
+	public void updateTipoUsuario(int idUsuario, int idTipo);
 	public void deleteUsuario(int id);
 	public abstract UserDetails loadUserByUsername(String email);
-	public abstract Usuario obtenerPorNombre(String nombre);
 
 
 }

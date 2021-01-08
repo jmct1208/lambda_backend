@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.taekwondo.model.Alumno;
 import com.taekwondo.model.AlumnoDTO;
-import com.taekwondo.model.Usuario;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
@@ -24,7 +23,7 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 			"a.actividadMarcial, a.seguroMedico, a.gradoActividadMarcial, " +
 			"a.certificadoMedico, a.cartaResponsiva)" + 
 			"FROM Alumno a JOIN a.usuario u WHERE u.id=?1")
-	AlumnoDTO findByUsuario(int id);
+	AlumnoDTO findByUsuarioId(int id);
 	
 	@Query("FROM Alumno a LEFT JOIN FETCH a.examenesParticipados WHERE a.id=?1")
 	Alumno findByIdWithExamenes(int id);
@@ -70,11 +69,7 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 			"a1.eventosParticipados e WHERE e.id=?1)")
 	List<AlumnoDTO> findByEventoNotId(int id);
 	
-	@Query("FROM Usuario u JOIN FETCH u.tipoUsuario t_u "
-			+ "WHERE u.id NOT IN "
-			+ "(SELECT u1.id FROM Alumno e INNER JOIN e.usuario u1)"
-			+ "AND t_u.nombre = 'ALUMNO'")
-	List<Usuario> alumnosSinUsuario();
+	
 	
 
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ public class EventoController {
 	@Autowired
 	private EventoService eventoService;
 
-	
 	@Autowired
 	private AlumnoService aSrv;
 	
@@ -33,6 +31,12 @@ public class EventoController {
 	public ResponseEntity<Object> getEventos(){
 		return new ResponseEntity<Object>(this.eventoService.getEventos(), 
 				HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Object> getEvento(@PathVariable int id) {
+		return new ResponseEntity<Object>(this.eventoService.getEvento(id), 
+				HttpStatus.OK);	
 	}
 	
 	@GetMapping("/{id_evento}/alumnos")
@@ -49,25 +53,23 @@ public class EventoController {
 				HttpStatus.OK);
 	}
 	
-	@PostMapping("/tipo_evento/{id_tipo_evento}")
-	public ResponseEntity<Object> createEvento(@Valid @RequestBody 
-			Evento evento, @PathVariable("id_tipo_evento") int idTipoEvento) {
-		HashMap<String, String> response = new HashMap<String, String>();
-		this.eventoService.createEvento(evento, idTipoEvento);
-		response.put("status", "success");
-		response.put("message", "Evento creado correctamente");
-		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
-		
-	}
-	
-	@PutMapping("/{id_evento}/tipo_evento/{id_tipo_evento}")
+	@PutMapping("/{id_evento}")
 	public ResponseEntity<Object> updateEvento(@Valid @RequestBody 
-			Evento evento, @PathVariable("id_evento") int idEvento,
-			@PathVariable("id_tipo_evento") int idTipoEvento) {
+			Evento evento, @PathVariable("id_evento") int idEvento) {
 		HashMap<String, String> response = new HashMap<String, String>();
-		this.eventoService.updateEvento(evento, idEvento, idTipoEvento);
+		this.eventoService.updateEvento(evento, idEvento);
 		response.put("status", "success");
 		response.put("message", "Evento actualizado exitosamente");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{id}/tipo_evento")
+	public ResponseEntity<Object> updateTipoEvento(@RequestBody Integer idTipo,
+			@PathVariable int id) {
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.eventoService.updateTipoEvento(id, idTipo);
+		response.put("status", "success");
+		response.put("message", "Tipo de evento actualizado exitosamente");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	

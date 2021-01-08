@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taekwondo.model.*;
+import com.taekwondo.service.EventoService;
 import com.taekwondo.service.TipoEventoService;
 
 @RestController
@@ -24,6 +25,9 @@ public class TipoEventoController {
 	
 	@Autowired
 	private TipoEventoService tipoEventoService;
+	
+	@Autowired
+	private EventoService eSrv;
 	
 	@GetMapping("")
 	public ResponseEntity<Object> getTipoEventos(){
@@ -45,6 +49,17 @@ public class TipoEventoController {
 		response.put("status", "success");
 		response.put("message", "Tipo de evento creado exitosamente.");
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/{id}/eventos")
+	public ResponseEntity<Object> createEvento(@Valid @RequestBody 
+			Evento evento, @PathVariable int id) {
+		HashMap<String, String> response = new HashMap<String, String>();
+		this.eSrv.createEvento(evento, id);
+		response.put("status", "success");
+		response.put("message", "Evento creado correctamente");
+		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+		
 	}
 	
 	@PutMapping("/{id}")

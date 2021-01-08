@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,11 +35,6 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	
 	@Autowired
 	private PasswordEncoder bCryptPasswordEncoder;
-	
-	@Override
-	public Usuario getUsuario(int id) {
-		return this.uRep.getOne(id);
-	}
 
 	@Override
 	public List<Usuario> getUsuarios() {
@@ -46,34 +42,33 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	}
 	@Override
 	public ResponseEntity<Object> createUsuario(Usuario usuario, int idRol) {
-        Usuario usuario_existe = uRep.findByNombre(usuario.getNombre());
+        Usuario usuario_existe = uRep.findByKey(null, usuario.getNombre());
 		
 		if(usuario_existe != null) {
 			HashMap<String, Object> response = new HashMap<>(); 
 			response.put("status", HttpStatus.PRECONDITION_FAILED);
 			response.put("mensaje", "usuario ya existe");
-			return new ResponseEntity<Object>(response, HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<Object>(
+					response, HttpStatus.PRECONDITION_FAILED);
 		}
-		TipoUsuario tipo=tRep.getOne(idRol);
+		TipoUsuario tipo = tRep.getOne(idRol);
 		usuario.setTipoUsuario(tipo);
-		String encodedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+		String encodedPassword = 
+				bCryptPasswordEncoder.encode(usuario.getPassword());
 		usuario.setPassword(encodedPassword);
 		uRep.save(usuario);		
 		HashMap<String, Object> response = new HashMap<>(); 
 		response.put("status", HttpStatus.OK);
 		response.put("mensaje", "Usuario Creado");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
-
 	}
 
 	@Override
 	@Transactional
-	public void updateUsuario(Usuario usuario, int idUsuario, int idRol) {
-		Usuario usuarioExistente = uRep.getOne(idUsuario);
-		TipoUsuario tipo = tRep.getOne(idRol);
+	public void updateUsuario(Usuario usuario, int id) {
+		Usuario usuarioExistente = uRep.getOne(id);
 		usuarioExistente.setNombre(usuario.getNombre());
 		usuarioExistente.setPassword(usuario.getPassword());
-		usuarioExistente.setTipoUsuario(tipo);
 	}
 
 	@Override
@@ -82,39 +77,50 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 	}
 	
 	@Override
-	public Usuario obtenerPorNombre(String nombre) {
-		return this.uRep.findByNombre(nombre);
+	public Usuario obtenerPorLlave(Integer id, String nombre) {
+		return this.uRep.findByKey(id, nombre);
 	}
 
-
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Usuario usuario = uRep.findByNombre(email);
+	public UserDetails loadUserByUsername(String email) 
+			throws UsernameNotFoundException {
+		Usuario usuario = uRep.findByKey(null, email);
 
 		// Si existe el usuario
 		if(usuario != null) {
-			List<GrantedAuthority> authorities = getUserAuthority(usuario.getTipoUsuario().getNombre());
+			List<GrantedAuthority> authorities = 
+					getUserAuthority(usuario.getTipoUsuario().getNombre());
 			return buildUserForAuthentication(usuario, authorities);
 		}else {
-			throw new UsernameNotFoundException("Nombre de usuariuo no encontrado");
+			throw new UsernameNotFoundException(
+					"Nombre de usuariuo no encontrado");
 		}
 	}
 
-	
-
-	private List<GrantedAuthority> getUserAuthority(String nombre_tipo_usuario) {
+	private List<GrantedAuthority> getUserAuthority(
+			String nombre_tipo_usuario) {
 		Set<GrantedAuthority> roles = new HashSet<>();
 		roles.add(new SimpleGrantedAuthority(nombre_tipo_usuario));
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
 		
 		return grantedAuthorities;
-				
 	}
 
-
-	private UserDetails buildUserForAuthentication(Usuario usuario, List<GrantedAuthority> authorities) {
-		return new org.springframework.security.core.userdetails.User(usuario.getNombre(), usuario.getPassword(), authorities);
+	private UserDetails buildUserForAuthentication(
+			Usuario usuario, List<GrantedAuthority> authorities) {
+		return new User(usuario.getNombre(),
+				usuario.getPassword(), authorities);
 	}
-
-
+	
+	@Override
+	@Transactional
+	public void updateTipoUsuario(int idUsuario, int idTipo) {
+		Usuario usuario = this.uRep.getOne(idUsuario);
+		usuario.setTipoUsuario(this.tRep.getOne(idTipo));
+	}
+	
+	@Override
+	public List<Usuario> getUsuariosSinAlumno() {
+		return this.uRep.usuariosSinAlumno();
+	}
 }

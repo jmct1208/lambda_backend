@@ -45,7 +45,11 @@ public class SpringBootSecurityConfiguration extends
 			.antMatchers("/api/autenticacion/**")
 				.permitAll()
 			.antMatchers(HttpMethod.GET, "/eventos", "/examenes").permitAll()
-			.antMatchers("/usuarios/logged_in/**").hasAuthority("ALUMNO")
+			.regexMatchers(HttpMethod.GET, "/usuarios\\?nombre=.+", 
+					"/usuarios/(\\d)+/alumno",
+					"/alumnos/(\\d)+",
+					"/alumnos/(\\d)+/eventos", 
+					"/alumnos/(\\d)+/examenes").authenticated()
 			.antMatchers("/usuarios", "/usuarios/**", "/eventos", "/eventos/**",
 					"/examenes", "/examenes/**", "/tipos_evento",
 					"/tipos_evento/**", "/alumnos", "/alumnos/**")

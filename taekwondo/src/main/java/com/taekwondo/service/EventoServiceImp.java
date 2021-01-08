@@ -1,8 +1,6 @@
 package com.taekwondo.service;
 
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +29,15 @@ public class EventoServiceImp implements EventoService{
 	public List<EventoDto> getEventos() {
 		return this.repoEvento.findAllDto();
 	}
+	
+	@Override
+	public EventoDto getEvento(int id) {
+		return this.repoEvento.findByIdDto(id);
+	}
 
 	@Override
 	@Transactional
-	public void updateEvento(Evento evento, int idEvento, int idTipoEvento) {
+	public void updateEvento(Evento evento, int idEvento) {
 		Evento eventoExistente = this.repoEvento.getOne(idEvento);
 		eventoExistente.setCosto(evento.getCosto());
 		eventoExistente.setDescripcion(evento.getDescripcion());
@@ -42,7 +45,6 @@ public class EventoServiceImp implements EventoService{
 		eventoExistente.setFechaFin(evento.getFechaFin());
 		eventoExistente.setFechaInicio(evento.getFechaInicio());
 		eventoExistente.setNombre(evento.getNombre());
-		eventoExistente.setTipoEvento(tERep.getOne(idTipoEvento));
 	}
 
 	@Override
@@ -79,5 +81,13 @@ public class EventoServiceImp implements EventoService{
 		Alumno alumno = this.aRep.findByIdWithEventos(idAlumno);
 		evento.getAlumnosParticipantesEvento().add(alumno);
 		alumno.getEventosParticipados().add(evento);
+	}
+
+	@Override
+	@Transactional
+	public void updateTipoEvento(int idEvento, int idTipoEvento) {
+		Evento evento = this.repoEvento.getOne(idEvento);
+		TipoEvento tipo = this.tERep.getOne(idTipoEvento);
+		evento.setTipoEvento(tipo);	
 	}
 }
