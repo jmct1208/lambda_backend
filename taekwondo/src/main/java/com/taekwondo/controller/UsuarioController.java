@@ -68,8 +68,10 @@ public class UsuarioController {
 		
 	@PostMapping("/{id}/alumno")
 	public ResponseEntity<Object> createAlumno(@Valid @RequestBody 
-			Alumno alumno, @PathVariable("id_usuario") int id) {
+			Alumno alumno, @PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
+		System.out.println(alumno);
+		System.out.println(id);
 		this.aSrv.createAlumno(alumno, id);
 		response.put("status", "success");
 		response.put("message", "Alumno creado exitosamente");

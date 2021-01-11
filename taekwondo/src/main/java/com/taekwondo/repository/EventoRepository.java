@@ -28,8 +28,9 @@ public interface EventoRepository extends JpaRepository<Evento, Integer>{
 	
 	@Query("SELECT new com.taekwondo.model.EventoDto(e.id, e.nombre, "
 			+ "e.descripcion, e.fechaInicio, e.fechaFin, e.costo, "
-			+ "e.enlaceFacebook) "
-			+ "FROM Evento e INNER JOIN e.alumnosParticipantesEvento a "
+			+ "e.enlaceFacebook, t.id, t.nombre, t.descripcion) "
+			+ "FROM Evento e JOIN e.tipoEvento t "
+			+ "INNER JOIN e.alumnosParticipantesEvento a "
 			+ "WHERE a.id=?1")
 	List<EventoDto> findByEventoId(int id);
 		

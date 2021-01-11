@@ -67,6 +67,7 @@ public class EventoController {
 	public ResponseEntity<Object> updateTipoEvento(@RequestBody Integer idTipo,
 			@PathVariable int id) {
 		HashMap<String, String> response = new HashMap<String, String>();
+		System.out.println(id + " " + idTipo);
 		this.eventoService.updateTipoEvento(id, idTipo);
 		response.put("status", "success");
 		response.put("message", "Tipo de evento actualizado exitosamente");
